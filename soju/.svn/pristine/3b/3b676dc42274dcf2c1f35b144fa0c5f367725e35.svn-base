@@ -1,0 +1,55 @@
+<%@page import="soju.vo.BoardVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+
+<%
+   //ArtBoardList서블릿에서 request의 자료 공유
+   
+   List<BoardVO> list = (List<BoardVO>)request.getAttribute("artBoardList");
+//    List<LikeVO> like = (List<LikeVO>)request.getAttribute("like"); 
+%> 
+[
+ <%
+    for(int i = 0; i < list.size(); i++){
+    	BoardVO vo = list.get(i);
+    	if(i > 0)out.print(",");
+  %>
+    {
+     "bd_num"   :"<%= vo.getBd_num() %>",
+     "bd_title"  :"<%= vo.getBd_title() %>",
+     "bd_cont"  :"<%= vo.getBd_cont().replaceAll("\r", "").replaceAll("\n", "<br>") %>",
+     "bd_nick"  :"<%= vo.getBd_nick() %>",
+     "bd_date"  :"<%= vo.getBd_date() %>",
+     "bd_like"  :"<%= vo.getBd_like() %>",
+     "bd_warn"  :"<%= vo.getBd_warn() %>",
+     "cate_num" :"<%= vo.getCate_num() %>",
+     "bd_reply_cnt":"<%= vo.getBd_reply_cnt() %>",
+     "on" :
+ <%
+ 	if(like!=null){
+ 	for(int j = 0; j < like.size(); j++){
+ 		int num = like.get(j).getBd_num();
+ 		if(vo.getBd_num()==num){
+ %>
+ 			 "on"
+ <%			
+ 		}else{
+ %>
+ 			"off"
+ <%
+ 		}
+ 	}
+ 	}else{
+ %>
+ 			"off"
+ <%
+    }
+ %>
+    }
+<%
+    }
+ %>
+]
+
+

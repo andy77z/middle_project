@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="join">
+  
+	<!-- id중복검사 --> 
+	 <select id="checkId" resultClass="String" parameterClass="String">
+	 	select id from login_info where id=#data#
+	 </select>
+	 
+	<!-- 닉네임 중복검사 --> 
+	 <select id="checkNick" resultClass="String" parameterClass="String">
+	 	select nick from login_info where nick=#data#
+	 </select>
+	 
+	 <!-- 가입하기 --> 
+	 <insert id="insertMember" parameterClass="memberVO">
+		insert into member( 
+					mem_num, 
+					mem_id, 
+					mem_pass, 
+					mem_name, 
+					mem_nick, 
+					mem_mail,
+					mem_photo
+			)values(
+					mem_num_seq.nextval,  
+					#mem_id#, 
+					#mem_pass#, 
+					#mem_name#, 
+					#mem_nick#, 
+					#mem_mail#,
+					'profile_defalut.png'
+			)
+			
+			<selectKey resultClass="String" keyProperty="mem_id">
+				select mem_id from member where mem_id = #mem_id#
+			</selectKey>
+	 </insert>
+	 
+	 <update id="updateMember" parameterClass="memberVO">
+	 	update member set mem_nick=#mem_nick#,
+	 					  mem_pass=#mem_pass#,
+	 					  mem_mail=#mem_mail#,
+	 					  mem_photo=#mem_photo#
+	 				where mem_id=#mem_id#
+	 </update>
+	 
+	 <update id="updateLogin_info">
+	 	update login_info set password=#password#,
+	 						  nick=#nick#
+	 					where id=#id#
+	 </update>
+	 
+	 <!-- 회원 가입 후 login_info에 insert -->
+	 <insert id="insertMember_info" parameterClass="login_infoVO">
+	 	insert into login_info 
+	 	values(#id#,
+	 		   #password#,
+	 		   1,
+	 		   #nick#)
+	 </insert>
+</sqlMap>	

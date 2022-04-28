@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="board">
+	<!-- 카테고리넘버 가져오기 -->
+	<select id="getCateNum" parameterClass="categoryVO" resultClass="int">
+		select cate_num from category where art_num=#art_num# and cate_name=#cate_name#
+	</select>
+
+	<!-- 게시글 전체 가져오기(카테고리 번호별) -->
+	<select id="getBoardAll" resultClass="boardVO" parameterClass="int">
+		select * from board where cate_num=#cate_num# order by bd_num desc
+	</select>
+	
+	<!-- 게시글 하나 가져오기(게시글 번호) -->
+	<select id="getDetail" parameterClass="int" resultClass="boardVO">
+		select * from board where bd_num=#bd_num#
+	</select>
+	
+	<!-- 파일 가져오기(전체) -->
+	<select id="getFiles" resultClass="fileVO">
+		select a.* from tb_files a, board b 
+		where a.bd_num=b.bd_num
+	</select>
+	
+	<!-- 게시글의 첨부파일들 가져오기(게시글 번호) -->
+	<select id="getDetailFiles" parameterClass="int" resultClass="fileVO">
+		select files_path from tb_files where bd_num=#bd_num#
+	</select>
+	
+	<!-- 게시글 추가하기(반환값은 게시글 번호) -->
+	<insert id="insertBoard" parameterClass="BoardVO">
+		insert into board  
+		values(bd_num_seq.nextval,
+			   #bd_title#,
+			   #bd_cont#,
+			   #bd_id#,
+			   sysdate,
+			   0,0,
+			   #cate_num#,0,#bd_profile#,#bd_nick#)
+		
+		<selectKey keyProperty="bd_num" resultClass="int">
+			select bd_num_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<!-- 게시글의 첨부파일 추가하기(반환값은 게시글 번호) -->
+	<insert id="addFiles" parameterClass="fileVO">
+		insert into tb_files 
+		values(files_num_seq.nextval,
+			   #files_type#,
+			   #files_path#,
+			   #bd_num#)
+		
+		<selectKey keyProperty="bd_num" resultClass="int">
+			select bd_num from board where bd_num=#bd_num#
+		</selectKey>
+	</insert>
+	
+	<!-- 게시글 삭제하기(게시글 번호) -->
+	<delete id="deleteBoard" parameterClass="int">
+		delete from board where bd_num=#bd_num#
+	</delete>
+	
+	<!-- 파일 삭제하기(게시글 번호) -->
+	<delete id="deleteFiles" parameterClass="int">
+		delete from tb_files where bd_num=#bd_num#
+	</delete>
+	
+	<!-- 게시글 수정하기(게시글VO) -->
+	<update id="updateBoard" parameterClass="boardVO">
+		update board set bd_title=#bd_title#,
+						 bd_cont=#bd_cont#,
+						 bd_date=sysdate
+					where bd_num=#bd_num#
+	</update>
+	
+	<!-- 댓글 등록하기(반환값은 댓글 번호) -->
+	<insert id="insertReply" parameterClass="replyVO">
+		insert into reply 
+		values(rp_num_seq.nextval,
+			   #rp_cont#,
+			   #rp_id#,
+			   sysdate,
+			   0,
+			   0,
+			   #bd_num#,
+			   #rp_profile#,
+			   #rp_nick#)
+		<selectKey keyProperty="rp_num" resultClass="int">
+			select rp_num_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<!-- 한 게시글의 댓글 리스트 가져오기(게시글 번호) -->
+	<select id="getReply" parameterClass="int" resultClass="replyVO">
+		select * from reply where bd_num=#bd_num#
+	</select>
+	
+	<!-- 댓글수 업데이트(게시글 번호map => "bd_num1":"1", "bd_num2":"1") -->
+	<update id="updateReplyCount" parameterClass="map">
+		update board set bd_reply_cnt=(select count(*) 
+										 from reply where bd_num=#bd_num1#)
+		 where bd_num=#bd_num2#
+	</update>
+	
+	<!-- 댓글 삭제하기(게시글 번호) -->
+	<delete id="deleteReply" parameterClass="int">
+		delete from reply where rp_num=#rp_num#
+	</delete>
+	
+	<!-- 댓글 수정하기(댓글VO) -->
+	<update id="updateReply" parameterClass="replyVO">
+		update reply set rp_cont=#rp_cont#,
+						 rp_date=sysdate
+		 where rp_num=#rp_num#
+	</update>
+	
+	<!-- 신고하기(신고VO, 게시글 신고할때는 rp_num=null
+					      댓글인 경우 bd_num=null)반환값은 신고번호 -->
+	<insert id="report">
+		insert into report
+		values(rep_num_seq.nextval,
+			   #repoter#,
+			   #subject#,
+			   #rep_lgu#,
+			   n,
+			   #bd_num#,
+			   #rp_num#)
+		<selectKey keyProperty="rep_num" resultClass="int">
+			select rep_num_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<!-- 게시글 신고 확인하기(신고VO)반환값은 int -->
+	<select id="checkBoardReport" parameterClass="reportVO" resultClass="int">
+		select count(*) from report where reporter=#reporter#
+									and bd_num=#bd_num#
+	</select>
+	
+	<!-- 댓글 신고 확인하기(신고VO)반환값은 int -->
+	<select id="checkReplyReport" parameterClass="reportVO" resultClass="int">
+		select count(*) from report where reporter=#reporter#
+									and rp_num=#rp_num#
+	</select>
+	
+	<!-- 좋아요 누르기(likeVO)게시글 -->
+ 	<insert id="bd_like" parameterClass="bd_likeVO">
+ 		insert into bd_like 
+ 		values(blike_num_seq.nextval,
+ 			   #blike_id#,
+ 			   #bd_num#)
+ 		<selectKey keyProperty="blike_num" resultClass="int">
+ 			select blike_num_seq.currval from dual
+ 		</selectKey>
+ 	</insert>
+ 	
+ 	<!-- 좋아요 누르기(likeVO)댓글 -->
+ 	<insert id="rp_like" parameterClass="rp_likeVO">
+ 		insert into rp_like 
+ 		values(rlike_num_seq.nextval,
+ 			   #rp_num#,
+ 			   #rlike_id#)
+ 		<selectKey keyProperty="rlike_num" resultClass="int">
+ 			select rlike_num_seq.currval from dual
+ 		</selectKey>
+ 	</insert>
+	
+	<delete id="bd_likeD" parameterClass="bd_likeVO">
+		delete from bd_like where blike_id=#blike_id# and bd_num=#bd_num#
+	</delete>
+	
+	<delete id="rp_likeD" parameterClass="rp_likeVO">
+		delete from rp_like where rlike_id=#rlike_id# and rp_num=#rp_num#
+	</delete>
+	
+	<!-- 게시글 좋아요 확인하기(좋아요VO)반환값은 int -->
+ 	<select id="checkBdLike" parameterClass="String" resultClass="int">
+ 		select bd_num from bd_like where blike_id=#blike_id#
+ 	</select>
+	
+	<!-- 댓글 좋아요 확인하기(좋아요VO)반환값은 int list >> queryforlist로 뽑아야 한다함 -->
+	<select id="checkRpLike" parameterClass="String" resultClass="int">
+ 		select rp_num from rp_like where rlike_id=#rlike_id#
+ 	</select>
+ 	
+ 	<update id="updateBdLikeCnt" parameterClass="map">
+ 		update board set bd_like=(select count(*) from bd_like where bd_num=#bd_num1#) 
+ 		where bd_num=#bd_num2#
+ 	</update>
+ 	
+ 	<update id="updateRpLikeCnt" parameterClass="map">
+ 		update reply set rp_like=(select count(*) from rp_like where rp_num=#rp_num1#) 
+ 		where rp_num=#rp_num2#
+ 	</update>
+	
+	<select id="checkSub" parameterClass="SubscribeVO" resultClass="int">
+		select count(*) from subscribe where mem_num=#mem_num# and art_num=#art_num#
+	</select>
+	
+	<insert id="insertSub" parameterClass="SubscribeVO">
+		insert into subscribe 
+		values(sub_num_seq.nextval,
+			   #mem_num#,
+			   #art_num#)
+	</insert>
+	
+	<update id="cntUpSub" parameterClass="int">
+		update artist set sub_cnt=sub_cnt + 1 where art_num=#art_num#
+	</update>
+	
+</sqlMap>

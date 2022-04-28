@@ -1,0 +1,40 @@
+package soju.vo;
+
+public class ChatVO {
+	private int chat_num;
+	private String chat_time;
+	private String chat_cont;
+	private int mem_num;
+	private int art_num;
+	
+	public int getChat_num() {
+		return chat_num;
+	}
+	public void setChat_num(int chat_num) {
+		this.chat_num = chat_num;
+	}
+	public String getChat_time() {
+		return chat_time;
+	}
+	public void setChat_time(String chat_time) {
+		this.chat_time = chat_time;
+	}
+	public String getChat_cont() {
+		return chat_cont;
+	}
+	public void setChat_cont(String chat_cont) {
+		this.chat_cont = chat_cont;
+	}
+	public int getMem_num() {
+		return mem_num;
+	}
+	public void setMem_num(int mem_num) {
+		this.mem_num = mem_num;
+	}
+	public int getArt_num() {
+		return art_num;
+	}
+	public void setArt_num(int art_num) {
+		this.art_num = art_num;
+	}
+}

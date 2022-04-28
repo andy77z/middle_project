@@ -1,0 +1,572 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/artistFrame.css">
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/artBoardDetail.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <script src="../js/artBoardList.js"></script>
+  <script src="../js/artBoardDetail.js"></script>
+  <script src="../js/artBoardReply.js"></script>
+
+<style>
+body *{
+/* border : 1px solid blue; */
+}
+.artList{
+
+}
+.reportImg{
+width: 18px;
+height: 18px;
+}
+
+.artImg{
+ width: 60px;
+ height: 60px;
+ margin-bottom: 30px;
+}
+.repImg{
+ width:50px;
+ height: 50px;
+}
+
+.artImgDiv{
+ display: inline-block;
+}
+.artInfo{
+ display: inline-block;
+ margin-left: 10px;
+ width: 85%;
+}
+.artReplyImg{
+ display: inline-block;
+}
+.repInfo{
+display: inline-block;
+margin-left: 10px;
+border: 1px solid white;
+border-radius: 5px;
+padding: 5px;
+background: #e6ffe6;
+width: 85%;
+}
+.artName{
+    font-weight: bold;
+    font-size: 15px;
+    width: 85%;
+    display: inline-block;
+}
+.repName{
+font-size: 15px;
+font-weight: bold;
+}
+
+.reply1Check{
+
+}
+.artReactLike{
+display: inline-block;
+}
+.artReactReply{
+display: inline-block;
+margin-left: 12px;
+}
+.artReact{
+  border-top: 1px solid lightgray;
+  border-bottom:  1px solid lightgray;
+  padding-top: 12px;
+  height: 50px;
+}
+.artReplyList{
+ margin-top: 20px;
+     height: 60%;
+     overflow: auto;
+}
+.artReply{
+display:inline-block;
+margin-left: 5px;
+}
+.artReplyLike{
+ margin-left: 10%;
+ margin-top: 10px;
+ margin-bottom: 20px;
+}
+.userProfile{
+ width:50px;
+ height: 50px;
+}
+.userProfileDiv{
+
+float : left;
+}
+
+.userReply{
+height: 100px;
+}
+.replyWrite{
+  
+border:1px solid white;
+ resize: none;
+ float : left;
+ width:90%;
+
+}
+.artDate{
+ display: block;
+}
+
+.replyWriteDiv{
+/*  border-top: 1px solid blue; */
+}
+
+.replyForm{
+display : inline-block;
+ width: 87%;
+ margin-left: 10px;
+ margin-top: 10px;
+ border-radius: 12px;
+}
+
+.loadRepBtn{
+  width : 39px;
+  height :20px;
+  padding-left:1px;
+  vertical-align: top;
+}
+
+textarea:focus {
+     outline: none; 
+}
+.moreBtn{
+    float: right;
+ background: white;
+ color: gray;
+ border : none;
+}
+
+.dropdown-menu-right {
+    margin-top: 25px;
+    right: 0;
+    left: auto;
+}
+li{
+text-align: center;
+}
+
+.dropdownBtn{
+    -webkit-appearance: button;
+    cursor: pointer;
+    background: white;
+    border: none;
+}
+
+.moreReply{
+ text-align: center;
+ 
+}
+.moreRepBtn{
+ border-radius: 20px;
+ margin: 5%;
+color : #3cc2ff;
+background: white;
+border-color: #3cc2ff;
+
+}
+img{
+ border-radius: 50%;
+}
+.artContentImg{
+
+padding-left:7px;
+width:99%;
+border-radius: 15px;
+margin-top: 20px;
+margin-bottom: 25px;
+}
+.artContent{
+text-align: center;
+}
+
+.reactReplyCheck, .reactLikeCheck{
+   visibility:hidden; 
+}
+.likeBtn{
+ margin-bottom:3px;
+    filter : opacity(0.5) drop-shadow(0 0 0 lightgray);   
+/* filter: invert(100%) sepia() saturate(10000%) hue-rotate(0deg) */
+}
+.on{
+	filter: invert(100%) sepia() saturate(10000%) hue-rotate(290deg);
+}
+.replBtn{
+ width: 25px;
+ height: 25px;
+}
+.reactCount{
+ margin-left: 5px;
+}
+
+.modal-dialog{
+  width: 90%;
+  height: 90%;
+  margin: 5%;
+  padding: 0;
+}
+.modal-content{
+  height: auto;
+  min-height: 100%;
+  border-radius: 0; 
+}
+
+.modal-body{
+width: 100%;
+height: 750px;
+float: left;
+}
+
+.modalImg{
+
+width: 90%;
+height: 100%;
+}
+
+
+ /*css     */ 
+.main{
+
+    float: right;
+    width: 35%;
+    height: 650px;
+    margin: 5%;
+}
+.modalImg{
+    height: 90%;
+    width: 55%;
+    display: inline-block;
+    float: left;
+    margin-top: 60px;
+}
+.replDiv{
+padding:5px;
+border: 3px solid blue;
+    width: 100%;
+    height: 100%;
+    float: right;
+border-radius: 5%;
+}
+.repDate{
+margin-left: 40px;
+}
+
+</style>
+<script>
+
+// bdNum = 0;
+idx = 0 ;
+reply = { };
+$(function(){
+	
+	// 아티스트 게시판 리스트 호출
+	artBoardList();
+	
+	
+
+   // 댓글더보기 버튼 클릭 시 게시글 상세정보 모달 출력
+	$(document).on("click", ".moreRepBtn", function(){
+// 		 idx = $(this).attr('idx');
+// 	   a = $('.moreRepBtn').attr('idx',this);
+// 	   a = $('.moreRepBtn').attr('idx');
+	   a = $(this).val();
+	 
+	  idx = a;
+	  alert(idx);
+	  artBoardDetail(idx);
+	  
+	  artBoardDetail_reply(idx);
+	  
+	  artBoardList();
+	});
+
+	// 좋아요 버튼 클릭 시 이미지 색상 변경
+	$(document).on("click", ".reactLikeCheck", function(){
+		b = $(this).prop('checked');
+		
+		if(b==true){
+			$(this).next().attr('class','likeBtn on');
+		}else{
+			$(this).next().attr('class','likeBtn');
+		}
+		
+	});
+	
+	// 댓글 버튼 클릭 시 (현재 이벤트 없음)
+	$(document).on("click", ".reactReplyCheck", function(){
+		b = $(this).prop('checked');
+	   alert(b);
+	   
+	    if(b==true){
+	         	
+	    }
+	   
+	});
+	
+	//'게시'버튼 클릭 시 댓글 등록
+	$(document).on("click", ".loadRepBtn", function(){
+		
+ 		newReply = $(this).prev().val();
+ 	    reply.rp_cont = newReply;	
+ 	    alert(reply.rp_cont);
+
+		alert(idx);
+		 
+		reply.bd_num = idx;
+		reply.rp_nick = "댓글등록 테스트";
+		reply.rp_profile = 0;
+		
+		insertReply();
+		 
+		
+		
+		artBoardList();
+		
+	});
+	
+	
+});
+
+
+
+
+</script>
+
+</head>
+<body>
+	<div id="#root">
+		<div class="page">
+			<header class="header"></header>
+			<section class="big">
+				<aside class="left"></aside>
+				<section class="center">
+					<section class="content">
+						<div style="position: relative;">
+							<div style="overflow: visible; width: 0px;">
+								<div class="one">
+									<div class="two">
+										<div class="three">
+										   <div class="modal">
+										   
+										   </div> 
+										
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</section>
+				</section>
+				<footer class="footer"></footer>
+			</section>
+		</div>
+	</div>
+	<!--  modal------------------------------------------------------------------ -->
+	
+	<div  class="modal fade"  id="intro" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+<!--         <h4 class="modal-title">Modal Header</h4> -->
+      </div>
+      <div class="modal-body">
+            
+        <img class="modalImg" src="../images/BLACKPINK.jpg">
+          <div class="main">    
+     <div class="replDiv">
+     <div class="artHead">
+     
+        <div class="artImgDiv">
+             <img class="artImg" src="../images/BLACKPINK.jpg"> 
+        </div>
+        
+        <div class="artInfo">
+	        <h5 class="artName">수지</h5>
+	      
+	        <span class="artDate">2021-12-16 11:51</span>
+        </div> 
+     </div>   
+     
+        <div class="artContent">
+            
+	                  
+        </div>
+	           
+       
+        <div class="artReact">
+           <div class="artReactLike">
+           	  <label aria-disabled="false" role="button">
+                <input class="reactLikeCheck" type="checkbox">
+	            <img src="../images/star.png">
+	            <span class="artReactLikeCnt">1만+</span>
+	          </label> 
+	       </div>   
+	           
+	       <div class="artReactReply">   
+	           <label aria-disabled="false" role="button">
+                <input class="reactReplyCheck" type="checkbox">
+	            <img class="replBtn" src="../images/reply.png">
+	            <span class="artReactReplyCnt">>1만+</span>
+	          </label> 
+           </div>
+       </div>
+       
+       <div class="artReplyList">
+          <div class="artReplyImg">
+            <img class ="repImg" src="../images/BLACKPINK.jpg">
+          </div>
+          <div class="repInfo">
+	        <span class="repName">공유</span>
+	        <span class="artReply">좋아요!</span> 
+	      </div> 
+          <div class=artReplyLike>
+            <label aria-disabled="false" role="button">
+                <input class="replyLikeCheck" type="checkbox">
+	            <img src="../images/check.png">
+	            <span>1만+</span>
+	        </label> 
+            <span class="repDate">2021-12-16 14:06</span>
+          </div>
+       </div>
+       
+	   <div class="userReply">
+		   <div class="userProfileDiv">
+		       <img class="userProfile" src="../images/BLACKPINK.jpg">
+		   </div>
+		   <div class="replyWriteDiv">
+		       <form class="replyForm form-control">
+		       <textarea class="replyWrite" cols="50" rows="1" placeholder="댓글을 입력하세요..."></textarea>
+		       <button class=" loadRepBtn btn-link" type="button">게시</button>
+		       </form>
+		   </div>
+                   
+        </div>
+      </div>          
+                
+      </div>
+        
+    		 
+      </div>
+       
+<!--                  <button type="button" class="closeBtn btn-default" data-dismiss="modal">X</button> -->
+      
+     
+<!-- footer 없어도??      <div class="modal-footer"> -->
+<!--         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+<!--       </div> -->
+    </div>
+
+  </div>
+</div>
+	
+	
+	
+	
+	
+	
+	<!-- ----------------------------------------------------------------------------- -->
+	<!--  <div class="modal overLay" id="intro" role="generic" aria-labelledby="introHeader" aria-hidden="true" tabindex="-1">
+            
+        <div class="main">
+              <img src="../images/사자.jpg">
+                 <div class="replDiv">
+                   <div class="artHead">
+     
+        <div class="artImgDiv">
+             <img class="artImg" src="../images/수지.jpg"> 
+        </div>
+        <div class="artInfo">
+	        <h5 class="artName">수지</h5>
+	        <span class="artDate">2021-12-16 11:51</span>
+        </div> 
+     </div>   
+     
+        <div class="artContent">
+            
+	                  짠~ 블링뀨 저 돌아왔댜앙! 저 로그아웃 되어 있어서<br>
+		          한참 비번 찾고 드디어 들어왔어요 ㅋㅋㅋㅋ 이런이런!😨<br>
+		          며칠동안 걱정 시켜줘서 미안해요 ㅠ <br>
+		          저 완전 건강하고 하나도 아프지 않아요! 😛
+        </div>
+	           
+       
+        <div class="artReact">
+           <div class="artReactLike">
+           	  <label aria-disabled="false" role="button">
+                <input class="reactLikeCheck" type="checkbox">
+	            <img src="../images/check.png">
+	            <span>1만+</span>
+	          </label> 
+	       </div>   
+	           
+	       <div class="artReactReply">   
+	           <label aria-disabled="false" role="button">
+                <input class="reactReplyCheck" type="checkbox">
+	            <img src="../images/check.png">
+	            <span>1만+</span>
+	          </label> 
+           </div>
+       </div>
+       
+       <div class="artReplyList">
+          <div class="artReplyImg">
+            <img class ="repImg" src="../images/공유.jpg">
+          </div>
+          <div class="repInfo">
+	        <span class="repName">공유</span>
+	        <span class="artReply">좋아요!</span> 
+	      </div> 
+          <div class=artReplyLike>
+            <label aria-disabled="false" role="button">
+                <input class="replyLikeCheck" type="checkbox">
+	            <img src="../images/check.png">
+	            <span>1만+</span>
+	        </label> 
+            <span class="repDate">2021-12-16 14:06</span>
+          </div>
+       </div>
+       
+	   <div class="userReply">
+		   <div class="userProfileDiv">
+		       <img class="userProfile" src="../images/카푸치노.jpg">
+		   </div>
+		   <div class="replyWriteDiv">
+		       <form class="replyForm form-control">
+		       <textarea class="replyWrite" cols="50" rows="1" placeholder="댓글을 입력하세요..."></textarea>
+		       <button class=" loadRepBtn btn-link" type="button">게시</button>
+		       </form>
+		   </div>
+                   
+        </div>
+                
+                
+      </div>
+                 <button type="button" class="closeBtn btn-default" data-dismiss="modal">X</button>
+     </div>
+ </div>             
+       
+	 -->
+	
+	
+	
+</body>
+</html>

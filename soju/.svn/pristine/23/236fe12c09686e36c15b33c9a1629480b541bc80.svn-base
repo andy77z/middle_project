@@ -1,0 +1,146 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<%-- <link rel="stylesheet" href="<%= request.getContextPath() %>/css/artistFrame.css"> --%>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="<%= request.getContextPath() %>/js/myTicket/ticketList.js"></script>
+  
+ <style>
+/*   body *{ */
+/*   border : 2px solid blue; */
+/*   } */
+   .ticketImg{
+  
+  }
+  
+  .ticketInfo{
+    float: left;
+    width: 50%;
+    height: 100px;
+  }
+  
+.ticketPrice{
+ float : left;
+}   
+
+ .buyTicketBtn{ 
+ 	width: 90%; 
+         height: 25% ;
+     border-radius: 5px; 
+ } 
+
+ 
+  
+
+ 
+/* 티켓  td 틀 */
+
+.maintr td{
+  border: 2px solid gray;
+   background: DodgerBlue;
+  color: white;
+  font-weight: bold;
+
+  }   
+  
+ .none{
+
+ } 
+  
+td{
+text-align: center;
+width: 10%;
+border: 2px solid lightgray;
+height: 50px;
+ }
+
+.td_artist{
+
+}
+ 
+.td_info{
+width: 30%;
+} 
+
+.td_price{
+
+}
+
+.td_buy{
+
+}
+ </style>
+ <script>
+ 
+ memNum =2;
+ 
+$(function(){
+	
+	myTicketList();
+	
+});
+   
+ </script>
+ 
+</head>
+<body>
+
+     <div class="buyTicketDiv">
+<!--        <table> -->
+<!--         <tr class="maintr"> -->
+<!--          <td class="none"></td> -->
+<!--          <td class="td_artist">아티스트</td> -->
+<!--          <td class="td_price">이용권 가격</td> -->
+<!--          <td class="td_start">시작일</td> -->
+<!--          <td class="td_end">종료일</td> -->
+<!--          <td class="td_state">사용여부</td> -->
+<!--         </tr> -->
+        
+<!--         <tr> -->
+<!--          <td><img class="ticketImg" alt="이용권.1" src="../images/ticket.png"></td> -->
+<!--          <td class="tk_artistName">블랙핑크</td> -->
+<!--         <td class="tk_price">3,500원</td> -->
+<!--          <td class="tk_start">2021-12-23</td> -->
+<!--          <td class="tk_end">2022-01-23</td> -->
+<!--          <td class="tk_state">사용중</td> -->
+<!--         </tr> -->
+       
+<!-- 	        <tr> -->
+<!-- 	         <td><img class="ticketImg" alt="이용권.1" src="../images/ticket.png"></td> -->
+<!-- 	         <td class="tk_artistName">블랙핑크</td> -->
+<!-- 	         <td class="tk_price">3,500원</td> -->
+<!-- 	         <td class="tk_start">2021-12-23</td> -->
+<!-- 	         <td class="tk_end">2022-01-23</td> -->
+<!-- 	         <td class="tk_state">미사용 -->
+<!-- 	         <button class="buyTicketBtn btn-info" type="button">환불하기</button> -->
+<!-- 	         </td> -->
+<!-- 	         <td><button class="buyTicketBtn btn-info" type="button">이용권 구매</button></td> -->
+	         
+<!-- 	        </tr> -->
+         
+<!--        </table> -->
+     
+<!--       	<div class="ticketImgDiv">  -->
+<!--           <img class="ticketImg" alt="이용권.1" src="../images/ticket.png"> -->
+<!--           <div class="ticketInfo"> -->
+<!--               티켓 티켓 티켓 티켓 티켓 티켓 티켓 티켓 티켓 티켓 티켓 -->
+<!--           </div> -->
+           
+<!--           <div class="ticketPrice"> -->
+<!--            25,000 -->
+<!--           </div>  -->
+<!--                     </div>  -->
+        
+        
+     
+     </div>
+
+</body>
+</html>

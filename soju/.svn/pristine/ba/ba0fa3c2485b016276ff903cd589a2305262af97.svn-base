@@ -1,0 +1,36 @@
+package soju.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import soju.service.FeedServiceImpl;
+import soju.service.IFeedService;
+
+
+@WebServlet("/FeedDelete.do")
+public class FeedDelete extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		int bdnum = Integer.parseInt(request.getParameter("num"));
+		
+		IFeedService service = FeedServiceImpl.getService();
+		
+		int dres = service.deleteContent(bdnum);
+		
+		request.setAttribute("res", dres);
+		request.getRequestDispatcher("feed/result.jsp").forward(request, response);
+	}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}

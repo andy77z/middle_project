@@ -1,0 +1,62 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>관리자 회원관리</title>
+<style>
+
+*, :after, :before{
+	box-sizing: border-box;
+}
+div {
+    display: block;
+}
+a{
+	color: inherit;
+	text-decoration: none;
+}
+.adminmember1{
+	margin: 0px auto;
+	display: flex;
+	flex-direction: column;
+	width: 896px;
+	padding: 0px 48px;
+}
+iframe{
+	padding: 0px;
+	margin: 30px 0px 0px;
+	list-style: none;
+	min-height: 570px;
+	border: 1px solid lightgray;
+	border-radius: 8px;
+}
+.adminmember2{
+	padding: 0px;
+	margin: 0px;
+}
+li{
+	display: inline;
+	margin: 0px;
+	padding: 0px;
+}
+</style>
+</head>
+<body>
+
+<div class="adminmember1">
+	<h2 class="adminmembername">회원관리</h2>
+	<ul class="adminmember2">
+		<li><a href="./memListAdmin.jsp" target="main2">회원목록</a></li>
+		<li><a href="./ban.jsp" target="main2">신고목록</a></li>
+		<li><a href="./agencyid.jsp" target="main2">소속사계정관리</a></li>
+		<li><a href="./artistid.jsp" target="main2">아티스트계정관리</a></li>
+	</ul>
+	<iframe src="./memListAdmin.jsp" name="main2" scrolling="no" frameborder="0"></iframe>
+	
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>So? Would You?</title>
+<script src="<%= request.getContextPath() %>/js/jquery-3.6.0.min.js"></script>
+<script>
+function proc2(){
+	   window.open("<%= request.getContextPath() %>/jsp/member/member.jsp","_blank","width=700 height=800");
+	   
+	}
+function proc3(){
+	   window.open("<%= request.getContextPath() %>/jsp/member/login.jsp","_blank","width=550 height=600");
+	   
+	}	
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+body{
+	width : 100%;
+	height : 100%;
+}
+.root1{
+	position: relative;
+	height: 100%
+}
+a{
+	color: inherit;
+	text-decoration: none;
+}
+*, :after, :before{
+	box-sizing: border-box;
+}
+div{
+	display: block;
+}
+img {
+    vertical-align: middle;
+}
+.header1{
+	display: block;
+	width: 100%;
+	height: 75px;
+}
+.header11{
+	position: fixed;
+	display: flex;
+	align-items: center;
+	width: inherit;
+	height: inherit;
+	top: 0px;
+	left: 0px;
+	background-color: white;
+	border-bottom: 1px solid lightgray;
+	z-index: 1000;
+	padding: 0px 32px 0px 26px; 
+}
+.header111{
+	margin-right: auto;
+	display: flex;
+	align-items: center;
+}
+.mainlogo{
+	margin-left: 16px;
+	padding: 6px;
+}
+.header112{
+	margin-left: auto;
+	display: flex;
+}
+.join, .login{
+	display: inline-block;
+	background-color: #2C7CE6;
+	border-width: 0px;
+	border-color: #2C7CE6;
+	border-style: solid;
+	border-radius: 18px;
+	color: white;
+	padding: 0px 20px;
+	font-size: 14px;
+	height: 32px;
+	text-align: center;
+	cursor: pointer;
+}
+iframe{
+	width: 100%;
+	height: 1000px;
+}
+</style>
+</head>
+<body>
+<div id="root">
+	<div class="root1">
+	
+		<header class="header1">
+			<div class="header11">
+				<div class="header111">
+					<a href="" class="mainlogo">
+						<img src="<%= request.getContextPath() %>/images/logosample.png" alt="So? Would You?">
+					</a>
+				</div><!-- header111 -->
+				<div class="header112">
+					<div class="header1121">
+						<button type="button" class="join" onclick="proc2()">회원가입</button>
+						
+						<button type="button" class="login" onclick="proc3()">로그인</button>
+					</div><!-- header1121 -->
+				</div><!-- header112 -->
+			</div><!-- header11 -->
+		</header><!-- header1 -->
+		
+	</div>
+</div>
+     
+<iframe src="./home.jsp" name="main" scrolling="no" frameborder="0"></iframe>
+</body>
+</html>

@@ -1,0 +1,373 @@
+/**
+ * 
+ */
+function getArtist2(){
+	$.ajax({
+		url : '/soju/getArtist.do',
+		data : {"art_num":art_num},
+		type : 'post',
+		success : function(res) {
+			$('.aname p').text(res.art_name);
+			$('.wever').text(res.sub_cnt);
+			$('.aprofile img').attr('src', "/soju/images/"+res.art_photo);
+			getMediaCate_num();
+		},
+		error : function (xhr) {
+			alert(xhr.status)
+		},
+		dataType : 'json'
+	})
+}
+
+function getArtist(){
+	$.ajax({
+		url : '/soju/getArtist.do',
+		data : {"art_num":art_num},
+		type : 'post',
+		success : function(res) {
+			$('.aname p').text(res.art_name);
+			$('.wever').text(res.sub_cnt);
+			$('.aprofile img').attr('src', "/soju/images/"+res.art_photo);
+			getCate_num();
+		},
+		error : function (xhr) {
+			alert(xhr.status)
+		},
+		dataType : 'json'
+	})
+}
+
+function getCate_num(){
+	$.ajax({
+		url : '/soju/getCateNum.do',
+		data : {"art_num":art_num,
+				"cate_name":cate_name},
+		type : 'post',
+		success : function(res) {
+			cate_num = res.cate_num;
+			if(cate_name=="video"){
+				getVideoList();
+			}else if(cate_name=="photo"){
+				getPhotoList();
+			}
+		},
+		error : function (xhr) {
+			alert(xhr.status)
+		},
+		dataType : 'json'
+	})
+}
+
+function getMediaCate_num(){
+	$.ajax({
+		url : '/soju/getCateNumMedia.do',
+		data : {"art_num":art_num,
+				"cate_name":cate_name,
+				"cate_name2":cate_name2},
+		type : 'post',
+		success : function(res) {
+			cate_num = res.cate_num;
+			cate_num2 = res.cate_num2;
+			getMediaList();
+		},
+		error : function (xhr) {
+			alert(xhr.status)
+		},
+		dataType : 'json'
+	})
+}
+
+function getMediaList(){
+	$.ajax({
+		url:'/soju/mediaList.do', //<<<<<여기부터하면됨
+		data: {"cate_num" : cate_num,
+			   "cate_num2" : cate_num2},
+		type: 'post',
+		success: function(res){
+			str_v = "";
+			str_p = "";
+			vcnt = 0;
+			pcnt = 0;
+			$.each(res, function(i,v){
+				if(v.type=="video"){
+					if(vcnt > 4) return false;
+					str_v += `<div class="list-video">`;
+					str_v += `<div class="cont-video">`;
+					str_v += `<a href="/soju/media/videoDetail.jsp?num=${v.num}">`;
+					str_v += `<div class="thumb">`;
+					str_v += `<div class="thumb-img" style="background-image: url('/soju/video/${v.files[0]}');"></div>`;
+					str_v += `</div>`;
+					str_v += `<div class="title">${v.title}</div>`;
+					str_v += `<div class="date">${v.date}</div>`;
+					str_v += `</a>`;
+					str_v += `</div>`;
+					str_v += `</div>`;
+					vcnt++
+				}else{
+					if(pcnt > 4) return false;
+					str_p += `<div class="list-video">`;
+					str_p += `<div class="cont-video">`;
+					str_p += `<a href="/soju/media/photoDetail.jsp?num=${v.num}">`;
+					str_p += `<div class="thumb">`;
+					str_p += `<div class="thumb-img" style="background-image: url('/soju/photo/${v.files[0]}');"></div>`;
+					str_p += `</div>`;
+					str_p += `<div class="title">${v.title}</div>`;
+					str_p += `<div class="date">${v.date}</div>`;
+					str_p += `</a>`;
+					str_p += `</div>`;
+					str_p += `</div>`;
+					pcnt++
+				}
+			});
+			$('.video-list').html(str_v);
+			$('.photo-list').html(str_p);
+		},
+		error: function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType: 'json'
+	});
+}
+
+function getPhotoList(){
+	$.ajax({
+		url:'/soju/allList.do',
+		data: {"cate_num" : cate_num},
+		type: 'post',
+		success: function(res){
+			str = "";
+			$.each(res, function(i,v){
+					str += `<div class="list-video">`;
+					str += `<div class="cont-video">`;
+					str += `<a href="/soju/photoDetail.do?num=${v.num}">`;
+					str += `<div class="thumb">`;
+					str += `<div class="thumb-img" style="background-image: url('${v.files[0]}');"></div>`;
+					str += `</div>`;
+					str += `<div class="title">${v.title}</div>`;
+					str += `<div class="date">${v.date}</div>`;
+					str += `</a>`;
+					str += `</div>`;
+					str += `</div>`;
+			});
+			$('.list').html(str);
+		},
+		error: function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType: 'json'
+	});
+}
+
+function getVideoList(){
+	$.ajax({
+		url:'/soju/allList.do',
+		data: {"cate_num" : cate_num},
+		type: 'post',
+		success: function(res){
+			str = "";
+			$.each(res, function(i,v){
+					str += `<div class="list-video">`;
+					str += `<div class="cont-video">`;
+					str += `<a href="/soju/photoDetail.do?num=${v.num}">`;
+					str += `<div class="thumb">`;
+					str += `<div class="thumb-img" style="background-image: url('${v.files[0]}');"></div>`;
+					str += `</div>`;
+					str += `<div class="title">${v.title}</div>`;
+					str += `<div class="date">${v.date}</div>`;
+					str += `</a>`;
+					str += `</div>`;
+					str += `</div>`;
+			});
+			$('.list').html(str);
+		},
+		error: function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType: 'json'
+	});
+}
+
+function getPhotoDetail(){
+		$.ajax({
+			url:'/soju/photoContent.do',
+			data: {"num" : num},
+			type: 'post',
+			success: function(res){
+				$('.title').attr('id', res.num);
+				$('.title').text(res.title);
+				$('.date span').text(res.date);
+				$('.writer').text(res.writer);
+				$('.content').html(res.cont);
+				$('.like-count').text(res.like);
+				$('.reply-count').text(res.recnt);
+				str = "";
+				$.each(res.files, function(i,v){
+					str += `<div class="images">`
+					str += `<img class="image" src="${v}">`
+					str += `</div>`
+				})
+					str += `<p class="bottom"></p>` <!-- 마지막사진밑에? -->
+					$('.image-box').html(str);
+				str = "";
+				$.each(res.reply, function(i, v){
+					str += `<div class="one-reply" idx="${v.rp_num}">`;
+					str += `<div class="profile">`;
+					str += `<img src="${v.rp_profile}">`;
+					str += `</div>`;
+					str += `<div class="reply-box">`;
+					str += `<div class="reply-writer">${v.rp_nick}</div>`;
+					str += `<div class="reply-date">${v.rp_date}</div>`;
+					str += `<div class="warn">`;
+					str += `신고 : <span>${v.rp_warn}</span>`;
+					str += `</div>`;
+					str += `<div class="like">`;
+					str += `좋아요 : <span>${v.rp_like}</span>`;
+					str += `</div>`;
+					str += `</div>`;
+					str += `<br>`;
+					str += `<div class="reply-content">${v.rp_cont}</div>`;
+					str += `</div>`;
+				})
+				$('.reply-list').html(str);
+			},
+			error: function(xhr){
+				alert("상태 : " + xhr.status);
+			},
+			dataType: 'json'
+		})
+}
+
+function getVideoDetail(){
+	$.ajax({
+		url:'/soju/photoContent.do',
+		data: {"num" : num},
+		type: 'post',
+		success: function(res){
+			$('.title').attr('id', res.num);
+			$('.title').text(res.title);
+			$('.date span').text(res.date);
+			$('.writer').text(res.writer);
+			$('.content').html(res.cont);
+			$('.like-count').text(res.like);
+			$('.reply-count').text(res.recnt);
+			$('.video').attr('src', res.files);
+			str = "";
+			$.each(res.reply, function(i, v){
+				str += `<div class="one-reply" idx="${v.rp_num}">`;
+				str += `<div class="profile">`;
+				str += `<img src="${v.rp_profile}">`;
+				str += `</div>`;
+				str += `<div class="reply-box">`;
+				str += `<div class="reply-writer">${v.rp_nick}</div>`;
+				str += `<div class="reply-date">${v.rp_date}</div>`;
+				str += `<div class="warn">`;
+				str += `신고 : <span>${v.rp_warn}</span>`;
+				str += `</div>`;
+				str += `<div class="like">`;
+				str += `좋아요 : <span>${v.rp_like}</span>`;
+				str += `</div>`;
+				str += `</div>`;
+				str += `<br>`;
+				str += `<div class="reply-content">${v.rp_cont}</div>`;
+				str += `</div>`;
+			})
+			$('.reply-list').html(str);
+		},
+		error: function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType: 'json'
+	})
+}
+
+function deletePhoto(){
+	$.ajax({
+		url:'/soju/deleteMedia.do',
+		data: {"num" : num},
+		type: 'post',
+		success: function(res){
+			if(res.sw=="성공") {
+				alert("게시글을 삭제했습니다.");
+				location.href = '/soju/media/photoAll.jsp';
+			}
+		},
+		error: function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType: 'json'
+	})
+}
+
+function deleteVideo(){
+	$.ajax({
+		url:'/soju/deleteMedia.do',
+		data: {"num" : num},
+		type: 'post',
+		success: function(res){
+			if(res.sw=="성공") {
+				alert("게시글을 삭제했습니다.");
+				location.href = '/soju/media/videoAll.jsp';
+			}
+		},
+		error: function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType: 'json'
+	})
+}
+
+function insertPhotoReply(){
+	$.ajax({
+		url:'/soju/ReplyInsert.do',
+		data: reply,
+		type: 'post',
+		success: function(res){
+			if(res.sw=="성공") {
+				$('.textbox').val("");
+				getPhotoDetail();
+			}
+		},
+		error: function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType: 'json'
+	})
+}
+
+function insertVideoReply(){
+	$.ajax({
+		url:'/soju/ReplyInsert.do',
+		data: reply,
+		type: 'post',
+		success: function(res){
+			if(res.sw=="성공") {
+				$('.textbox').val("");
+				getVideoDetail();
+			}
+		},
+		error: function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType: 'json'
+	})
+}
+
+function updateBoard(){
+	$.ajax({
+		url:'/soju/updateBoard.do',
+		data: data,
+		type: 'post',
+		success: function(res){
+			if(res.sw=="성공") {
+				title = $('input[name=title]').val();
+				$('.title').text(title);
+				content = $('textarea').val();
+				$('.content').html(content);
+			}
+		},
+		error: function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType: 'json'
+	})
+}

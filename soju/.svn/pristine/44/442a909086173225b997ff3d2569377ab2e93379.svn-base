@@ -1,0 +1,40 @@
+package team3.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import team3.service.IBoardService;
+import team3.service.BoardServiceImpl;
+import team3.vo.BoardVO;
+import team3.vo.FileVO;
+
+@WebServlet("/allList.do")
+public class AllList extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		
+		int num = Integer.parseInt(request.getParameter("cate_num"));
+		
+		IBoardService service = BoardServiceImpl.getInstance();
+		List<BoardVO> list = service.getBoardAll(num);
+		List<FileVO> files = service.getFiles();
+		
+		request.setAttribute("board", list);
+		request.setAttribute("files", files);
+		
+		request.getRequestDispatcher("mediaJson/AllList.jsp").forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}

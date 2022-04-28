@@ -1,0 +1,184 @@
+/**
+
+ * 
+ */
+
+// 게시글 상세  modal에 댓글리스트 출력
+function artBoardDetail_reply(idx){
+	$.ajax({
+		url : '/team3/ArtReplyList.do',
+		type : 'get',
+		data : {"bdNum" : idx},
+		success : function(res){
+			rcode = '';
+			$.each(res, function(i, v){
+				
+				rcode += '<div class="artReplyImg">';
+				rcode += '<img class ="repImg" src="../images/BLACKPINK.jpg">';
+				rcode += '</div>';
+				rcode += '<div class="repInfo" rdx='+ v.rp_num +'>';
+				rcode += '<span class="repName">'+ v.rp_nick +'</span>';
+				
+				//드롭다운
+				rcode += '<div class="dropdown">';
+				rcode += '<button class="moreBtn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">더보기';  
+				rcode += '<span class="caret"></span></button>';  
+				rcode += '<ul class="dropdown-menu dropdown-menu-right">';  
+//				rcode += '<li><a href="#">댓글신고</a></li>';
+				
+				//글 작성자와 로그인한 아이디와 같으면
+//				if(v.bd_nick==art_name){
+					rcode += '<li><button class="dropdownBtn" name="updateBtn" type="submit">수정</button></li>';
+					rcode += '<li><button class="dropdownBtn" name="deleteBtn" type="submit">삭제</button></li>';
+				//글 작성자와 로그인한 아이디가 다르면
+//				}else{
+					rcode += '<li><button class="dropdownBtn" name="reportBtn" type="submit">';
+					rcode +=	'<img class="reportImg"src="../images/report.png">신고</button></li>';
+//				}
+				  
+				rcode += '</ul>';  
+				rcode += '</div>';  
+				
+				//드롭다운 종료
+				
+				
+				rcode += '<span class="artReply">'+ v.rp_cont +'</span> ';
+				rcode += '</div>';
+				rcode += '<div class=artReplyLike>';
+				rcode += '<label aria-disabled="false" role="button">';
+				
+//				rcode += '<input class="replyLikeCheck" type="checkbox">';
+//				rcode += '<img src="../images/star.png">';
+//				rcode += '<span>'+ v.rp_like +'</span>';
+				
+				rcode += '<input class="reactLikeCheck" type="checkbox">';
+				rcode += '<img class="likeBtn';
+					if(v.on=="on") rcode += ' on"';
+					else rcode += '"';
+				rcode +=	' src="../images/star.png">';
+				rcode += '<span class="reactCount">'+ v.rp_like +'</span>';
+				rcode += '</label>';
+				rcode += '<span class="repDate">'+ v.rp_date +'</span>';
+				rcode += '</div>';
+
+				$('.artReplyList').html(rcode);
+          	});
+			
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})	
+}
+			
+	
+
+
+
+
+
+
+
+//게시글 상세 modal에 게시글 리스트 추가
+
+function artBoardDetail(idx){
+	$.ajax({
+		url : '/team3/ArtBoardDetail.do',
+		type : 'get',
+		data : {"bdNum" : idx}, 
+		success : function(res){
+			
+			$('#intro').modal('show');
+			
+			$('.artName').text(res[0].bd_nick);
+			$('.artDate').text(res[0].bd_date);
+			$('.artContent').text(res[0].bd_cont);
+			$('.artReactLikeCnt').text(res[0].bd_like);
+			$('.artReactReplyCnt').text(res[0].bd_reply_cnt);
+			
+			
+			
+		/*	code = "";
+			$.each(res, function(i, v){
+//			 code += "</head>";
+//			 code +=  "<body>";	
+				code += "<div class='modal overLay' id='intro' role='generic' aria-labelledby='introHeader' aria-hidden='true' tabindex='-1'>";      
+				code += "<div class='main'>";	            
+				code += "<img src='../images/BLACKPINK.jpg'>";	               
+				code += "<div class='replDiv'>";	
+				code += '<div class="artHead">';
+				code += '<div class="artImgDiv">';
+				code += '<img class="modalImg" src="../images/BLACKPINK.jpg">';
+				code += '</div>';
+				code += '<div class="artInfo">';
+				code += '<h5 class="artName">'+ v.bd_nick +'</h5>';
+				code += '<span class="artDate">'+ v.bd_date +'</span>';
+				code += '</div>';
+				code += '</div>';
+				code += '<div class="artContent">';
+				code += ''+ v.bd_cont +'';
+				code += '</div>';
+				code += '<div class="contentImgDiv">';
+				code += '<a class="artContentDetail" href="https://www.weverse.io/blackpink/artist/1677660896843606?photoId=272501602">';
+				code += '<img class="artContentImg" src="../images/BLACKPINK.jpg">';
+				code += '</a>';
+				code += '</div>';
+				code += '<div class="artReact">';
+				code += '<div class="artReactLike">';
+				code += '<label aria-disabled="false" role="button">';
+				code += '<input class="reactLikeCheck" type="checkbox">';
+				code += '<img class="likeBtn" src="../images/star.png">';
+				code += '<span>'+ v.bd_like +'</span>';
+				code += '</label> ';
+				code += '</div>';
+				code += '<div class="artReactReply">';
+				code += '<label aria-disabled="false" role="button">';
+				code += '<input class="reactReplyCheck" type="checkbox">';
+				code += '<img src="../images/check.png">';
+				code += '<span>'+ v.bd_reply_cnt +'</span>';
+				code += '</label> ';
+				code += '</div>';
+				code += '</div>';
+				code += '<div class="artReplyList">';
+//				code += '<div class="moreReply">';
+//				code += '<button class="moreRepBtn btn-info" type="button" >댓글 더보기</button>';
+//				code += '</div>';
+				code += '<div class="userReply">';
+				code += '<div class="userProfileDiv">';
+				code += '<img class="userProfile" src="../images/BLACKPINK.jpg">';
+				code += '</div>';
+				code += '<div class="replyWriteDiv">';
+				code += '<form class="replyForm form-control">';
+				code += '<textarea class="replyWrite" cols="50" rows="1" placeholder="댓글을 입력하세요..."></textarea>';
+				code += '<button class=" loadRepBtn btn-link" type="button">게시</button>';
+				code += '</form>';
+				code += '</div>';
+				code += '</div>';
+				code += '</div> ';      
+		        code += "</div>";	                   
+				code += "</div>";	                   
+				code += "<button type='button' class='btn btn-default' data-dismiss='modal'>X</button>";	                   
+				code += "</div>";	
+//			    code += "</body>";		                
+//			    code += "</html>";
+				               
+			    // $('.three').html(code);	
+				
+				
+				           
+ 
+			})  */   
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})	
+}
+			
+			
+			
+
+
+

@@ -1,0 +1,104 @@
+#chatbox{
+	width: 400px;
+	height: 500px;
+	border: 1px solid gray;
+	margin: 50px;
+}
+.pchat{
+	height:300px; 
+	overflow: auto;
+}
+.profile{
+	width: 50px;
+	height: 50px;
+	float: left;
+	border-radius: 100px;
+	overflow:hidden;
+	margin:0 auto; 
+	margin-top: 10px;
+	margin-left: 20px;
+}
+#picture{
+	width : 100%;
+	height : 100%;
+	object-fit:+cover; 
+}
+.time{
+	padding-top: 60px;
+	margin-left: 13px;
+	font-size: 3px;
+	font-weight: bold;
+	color: gray;
+}
+.message{
+	display: inline-block;
+	background-color: rgb(245, 247, 250);
+	padding: 5px;
+	width: auto;
+	max-width: 60%;
+	border-radius: 0px 12px 12px;
+}
+.resnick{
+	font-weight: bold;
+	font-size: 13px;
+	margin-bottom: 3px;
+}
+.myprofile{
+	display: inline-block;
+	float: right;
+	margin-right: 10px;
+}
+.smessage{
+	display: inline-block;
+	float: right;
+	background-color: rgb(245, 247, 250);
+	padding: 5px;
+	width: auto;
+	max-width: 60%;
+	border-radius:12px 0px 12px 12px ;
+}
+.snick{
+	font-weight: bold;
+	font-size: 13px;
+	margin-top: 3px;
+}
+.sender{
+	padding-top: 10px;
+	overflow: auto;
+}
+.messa{
+	resize: none;
+	border: none;
+	outline: none;
+	overflow: hidden;
+	margin-left: 25px;	
+	width: 90%;
+}
+#but{
+	height: 30pt;
+	float: left;
+	margin-right: 10px;
+}
+.title{
+	display: inline-block;
+	width: 100px;
+	margin-left: 20px;
+}
+.more{
+	float: right;
+	margin-top: 20px;
+	margin-right: 20px;	
+}
+#all, #art{
+	border:none;  
+	background-color: white;  
+	width: 100%;
+	text-align: left;
+}
+#all:hover{
+	background-color: #D6EAF8;
+}
+#art:hover{
+	background-color: #D6EAF8;
+}
+

@@ -1,0 +1,302 @@
+<%@page import="soju.vo.ManagerVO"%>
+<%@page import="soju.vo.AgencyVO"%>
+<%@page import="soju.vo.ArtistVO"%>
+<%@page import="soju.vo.MemberVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Artist Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500&family=Single+Day&display=swap" rel="stylesheet">
+<link rel = "stylesheet" href = "../css/main.css">
+<link rel = "stylesheet" href = "../css/artist.css">
+<script src="<%= request.getContextPath() %>/js/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/feed/feed.css">
+<%
+	int type = (Integer)session.getAttribute("type");
+	session.setAttribute("art_num", Integer.parseInt(request.getParameter("art_num")));
+	
+	
+	String userId = "";
+	String userName = "";
+	String userNick = "";
+	String userEmail = "";
+	String userPhoto = "";
+	
+	switch(type){
+	case 1:
+		MemberVO mvo = (MemberVO)session.getAttribute("loginUser");
+		userId = mvo.getMem_id();
+		userName = mvo.getMem_name();
+		userNick = mvo.getMem_nick();
+		userEmail = mvo.getMem_mail();
+		userPhoto = mvo.getMem_photo();
+		break;
+	case 2:
+		ArtistVO avo = (ArtistVO)session.getAttribute("loginUser");
+		userId = avo.getArt_id();
+		userName = avo.getArt_name();
+		userEmail = avo.getArt_mail();
+		userPhoto = avo.getArt_photo();
+		break;
+	case 3:
+		AgencyVO gvo = (AgencyVO)session.getAttribute("loginUser");
+		userId = gvo.getAgc_id();
+		userName = gvo.getAgc_name();
+		userEmail = gvo.getAgc_mail();
+		userPhoto = gvo.getAgc_photo();
+		break;
+	case 4:
+		ManagerVO nvo = (ManagerVO)session.getAttribute("loginUser");
+		userId = nvo.getMng_id();
+		userName = nvo.getMng_name();
+		userEmail = "관리자";
+		break;
+	}
+	
+	
+%>
+<style>
+body {
+    display: block;
+    margin: 8px;
+}
+
+*, :after, :before{
+	box-sizing: border-box;
+}
+div{
+	display: block;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+.section1{
+	display: flex;
+    position: relative;
+    width: 1216px;
+    height: 1000px;
+    padding-left: 48px;
+    padding-right: 48px;
+    margin: 0px auto;
+    padding-top: 40px;
+    border: 1px solid red;
+    
+}
+.aside1{
+	width: 240px;
+	height: 1000px;
+	border: 1px solid blue;
+}
+.atitle{
+	position: fixed;
+    width: 200px;
+	height: 500px;
+}
+.aname{
+	font-size: 30px;
+    font-weight: bold;
+}
+.fcolor{
+	color : #2C7CE6; 
+}
+.aname a{
+	text-decoration: none;
+	font-family: 'Readex Pro', sans-serif;
+    text-decoration: none;
+	color : #2C7CE6; 
+    font-size: 38px;
+    font-weight: 800;
+    margin-left : 10px;
+}
+.aname > p {
+	padding: 0px;
+    margin: 0px;
+    white-space: nowrap;
+    letter-spacing: -0.5px;
+    line-height: 1.33;
+}
+.amenu{
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    margin: 12px 0px;
+    cursor: pointer;
+}
+.profile img{
+	width: 100px;
+	height: 100px;
+	margin: 20px;
+	border-radius : 50%;
+}
+.artistmenu{
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+}
+aside{
+	float :left;
+	width: 400px;
+}
+.section2{
+	border: 1px solid black;
+	display: flex;
+    position: relative;
+    width: 520px;
+    background-color: rgb(250, 251, 252);
+    flex-direction: column;
+}
+footer{
+	float :right;
+	width: 300px;
+}
+.footer1{
+	border: 1px solid green;
+}
+.fn{
+	font-weight: bold;
+}
+.fan{
+	padding-top: 50px;
+}
+</style>
+
+<script>
+function proc1(t){
+	//event.preventDefault();
+	if($('.amenu a').hasClass('fcolor')){
+		
+		$('.amenu a').removeClass('fcolor');
+	}
+	$(t).addClass('fcolor');
+}
+
+function proc2(){
+	window.open("../member/member.jsp","_blank","width=700 height=800");
+	
+}
+
+function proc3(){
+	window.open("../member/login.jsp","_blank","width=550 height=600");
+	
+}
+
+$(function(){
+	$(function(){
+		
+	})
+}) 
+</script>
+</head>
+<body>
+	<section class="section1">	
+		<aside class="aside1">
+	  		<div class="atitle">
+	  			<a href="">
+	    			<div class="aname"><p></p></div>
+	    		</a>
+	    		<!-- <div class="wever">362,731 Wever</div> 가입자수... 일단 주석처리..-->
+	    		<div class="profile"><img src="" alt="banner"></div>
+	  		
+		  		<div class="artistmenu">
+		    		<nav class="amenu">
+		      			<a aria-current="page" class="active" onclick="proc1(this)">Feed</a>
+		    		</nav>
+		    		<nav class="amenu">
+		      			<a  onclick="proc1(this)">Artist</a>
+		   			</nav>
+		    		<nav class="amenu">
+		      			<a  onclick="proc1(this)">Media</a>
+		    		</nav>
+		    		<nav class="amenu">
+		      			<a  onclick="proc1(this)">Chatting</a>
+		    		</nav>
+		  		</div>
+		  	</div>
+		</aside>
+		<section class="section2">
+				<section class="content">
+						<div style="position: relative;">
+							<div style="overflow: visible; width: 0px;">
+								<div class="one">
+									<div class="two">
+										<div class="three">
+											<article class="arti">
+												<div class="fpost">
+													<div class="fbox">
+														<h4>포스트 쓰기</h4><br>
+														<div class="profile">
+															<img src="">
+														</div>
+														<form enctype="multipart/form-data" id="form" method="post" action="<%= request.getContextPath() %>/FileUpload.do">
+														<div style="display: inline-block">
+														<textarea name="bd_cont" class="content pwrite" placeholder="여기에 글자를 입력해주세요."></textarea><br>
+														<input name="bd_nick" value="BTS" type="hidden">
+														<input type="hidden" value="" name="bd_title">
+														<input type="hidden" value="1" name="cate_num">
+														</div>
+														<br>
+															<div style="float: right;">
+																<label for="fup" style="cursor: pointer;"><img class="fimg" src="../images/upload.png"></label>
+																<input id="fup" name="inf" type="file" accept="image/*" multiple style="display: none;">
+															</div><br><hr>
+															<div>
+																<button type="button" class="complete" disabled>완료</button>
+															</div>
+														</form>
+													</div>
+												</div>
+												
+												<div class="start">
+													
+												</div>
+																							
+											</article>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</section>
+		</section>	
+		<footer class="footer1">
+			<div class="sc-pYNsO cNiiyt">
+			<div class="ftitle">
+				<table class="fan">
+					<tr>
+						<td rowspan="2" class="profile">
+							<div>
+								<img src="<%= userPhoto %>" alt="profile">
+							</div>
+						</td>
+	          			<td class="rtd">
+	            			<div class="nickname">
+	              				<p class="fn"><%= userNick %></p>
+	            			</div>
+	            			
+	            			<div class="userId">
+	              				<p class="fn">(<%= userId %>)</p>
+	           	 			</div>
+	          			</td>
+	        		</tr>
+	      		</table>
+			</div>
+			</div>
+		</footer>		
+	</section>	
+	
+</body>
+</html>

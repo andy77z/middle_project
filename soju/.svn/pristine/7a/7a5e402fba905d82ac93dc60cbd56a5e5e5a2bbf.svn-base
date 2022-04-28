@@ -1,0 +1,38 @@
+package soju.service;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import sun.security.jca.GetInstance;
+import soju.dao.CalendarDaoImpl;
+import soju.dao.ICalendarDao;
+import soju.vo.CalendarVO;
+
+
+public class CalendarServiceImpl implements ICalendarService{
+
+	private ICalendarDao dao;
+	private static CalendarServiceImpl service;
+	
+	private CalendarServiceImpl() {
+		dao = CalendarDaoImpl.getInstance();
+	}
+	
+	public static CalendarServiceImpl getInstance() {
+		if(service==null) service = new CalendarServiceImpl();
+		return service;
+	}
+	
+	@Override
+	public ArrayList<CalendarVO> calenList() {
+		ArrayList<CalendarVO> list = null;
+		try {
+			list = dao.calenList();
+		} catch (SQLException e) {
+			list = null;
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+}

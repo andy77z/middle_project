@@ -1,0 +1,22 @@
+package soju.service;
+
+import java.util.List;
+
+import soju.vo.AgencyVO;
+import soju.vo.ArtistVO;
+import soju.vo.MemberVO;
+
+public interface IHomeService {
+
+	//홈 아티스트 리스트
+	public List<ArtistVO> listArtist();
+	
+	//관리자페이지 - 회원목록보기
+	public List<MemberVO> listMember();
+	
+	//관리자페이지 - 소속사목록보기
+	public List<AgencyVO> listAgency();
+	
+	//관리자페이지 - 아티스트목록보기
+	public List<ArtistVO> listArtistAdmin();
+}

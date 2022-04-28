@@ -1,0 +1,289 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<style>
+*{
+/*border : 1px solid blue;*/
+}
+.ziptr:hover{
+	background: lightblue;
+}
+.container{
+	/*border : 1px solid blue;*/
+	max-width : 680px;
+	margin-top: 10px;
+}
+.container h2{
+	margin-left: 80px;
+    padding: 30px;
+    display: block;
+    width: 400px;
+}
+.container input{
+	width: 200px;
+	
+}
+.form-group input,.form-group label,.form-group button{
+	margin-left: 150px;
+}
+#chpass{
+	margin-left: 150px;
+}
+.btn{
+	margin-bottom: 10px;
+}
+.pw2{
+	width: 120px;
+}
+
+</style>
+<html lang="kr">
+<head>
+  <title>회원가입 페이지</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="../js/jquery.serializejson.min.js"></script>
+  <script>
+  $(function(){
+	  
+	  //id입력 시 정규식검증
+	  $('#id').on('keyup', function(){
+	  	idval = $('#id').val().trim();
+	  	
+	  	idreg = /^[a-zA-Z][a-zA-Z0-9]{3,11}$/
+	  	
+	  	if(!(idreg.test(idval))){
+	  		$(this).css('border', '1px solid red');
+	  		//중복검사버튼 비활성
+	  		$('#idbtn').prop('disabled', true);
+	  	}else{
+	  		$(this).css('border', '1px solid blue');
+	  		//중복검사버튼 활성
+	  		$('#idbtn').prop('disabled', false);
+	  	}
+	})
+	
+	 //아이디 중복검사
+  	$('#idbtn').on('click',function(){
+  		idval = $('#id').val().trim();
+  		
+  		if(idval.length < 1){
+  			alert("id를 입력하세요");
+  			return false;
+  		}
+  		 		
+  		//서버로 전송하기
+  		$.ajax({
+  			url : '/soju/checkId.do',
+  			data : {"id" : idval},
+  			type : 'get',
+  			success : function(res){
+  				 // console.log(JSON.parse(res));
+  				$('#spanid').html(res.sw).css('color','red');
+  			},
+  			error : function(xhr){
+  				alert("상태:"+xhr.status);//404,500,200
+  			},
+  			dataType : 'json'
+  			
+  		})
+  		
+  		
+  	})
+	  
+	//이름 입력
+	$('#name').on('keyup', function(){
+	  	
+		nameval = $('#name').val().trim();
+		
+		namereg = /^[가-힣]{2,5}$/
+		
+		
+			if(!(namereg.test(nameval))){
+				$(this).css('border', '1px solid red');
+				$('button:submit').prop('disabled', true);
+				//return false;
+			}else{
+				
+				$(this).css('border', '1px solid blue');
+				$('button:submit').prop('disabled', false);
+				//return false;
+			}
+	});
+	  //닉네임 입력
+	  $('#nick').on('keyup', function(){
+		  	
+			nickval = $('#nick').val().trim();
+			
+			nickreg = /^[가-힣a-zA-Z0-9]{2,11}$/
+			
+			
+				if(!(nickreg.test(nickval))){
+					$(this).css('border', '1px solid red');
+					$('button:submit').prop('disabled', true);
+					//return false;
+				}else{
+					
+					$(this).css('border', '1px solid blue');
+					$('button:submit').prop('disabled', false);
+					//return false;
+				}
+		});
+	  
+
+		 //닉네임 중복검사
+	  	$('#nbtn').on('click',function(){
+	  		//nickval = $('#nick').val().trim();
+	  		
+	  		if(nickval.length < 1){
+	  			alert("닉네임을 입력하세요");
+	  			return false;
+	  		}
+	  		 		
+	  		//서버로 전송하기
+	  		$.ajax({
+	  			url : '/soju/checkNick.do',
+	  			data : {"nick" : nickval},
+	  			type : 'get',
+	  			success : function(res){
+	  				 // console.log(JSON.parse(res));
+	  				$('#spannick').html(res.sw).css('color','red');
+	  			},
+	  			error : function(xhr){
+	  				alert("상태:"+xhr.status);//404,500,200
+	  			},
+	  			dataType : 'json'
+	  			
+	  		})
+	  		
+	  		
+	  	})
+		  
+	//이메일 입력
+	  $('#email').on('keyup', function(){
+		  mailval = $('#email').val().trim(); 
+		  mailreg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		  
+		  if(!(mailreg.test(mailval))){
+			  
+				$(this).css('border', '1px solid red');
+				$('button:submit').prop('disabled', true);
+				//return false;
+			}else{
+				
+				$(this).css('border', '1px solid blue');
+				$('button:submit').prop('disabled', false);
+				//return false;
+			}
+	  
+	  });
+	  
+	  //비밀번호 입력
+	  $('#pwd').on('keyup', function(){
+		  passval = $('#pwd').val().trim();
+	  });
+	 //비밀번호 확인 입력
+	  $('#pwd2').on('keyup', function(){
+		  passval2 = $('#pwd2').val().trim();
+		  if(passval != passval2){
+		 		$('button:submit').prop('disabled', true);
+		 		$('#chpass').html("비밀번호가 일치하지 않습니다").css('color','red');
+			}else{
+				$('button:submit').prop('disabled', false);
+				$('#chpass').empty();
+			}
+		 
+	  });
+	 
+	 	
+  
+  	//가입-저장하기
+  	$('#subbtn').on('click',function(){
+  		  	
+  		$.ajax({
+  	  		url : '/soju/insert.do',
+  	  		data : {"id" : idval,
+  	  				"name" : nameval,
+  	  				"nick" : nickval,
+  	  				"mail" : mailval,
+  	  				"pass" : passval
+  	  				},
+  	  		type : 'post',
+  	  		success: function(res){
+  	  			alert(res.sw);
+  	  			window.close();
+  	  		},
+  	  		error : function(xhr){
+  	  			alert("상태 : "+xhr.status);
+  	  		},
+  	  		dataType: 'json'
+  	})
+  	
+  	
+  		
+  	})
+  	
+  })
+
+  </script>
+  
+</head>
+<body>
+
+<div class="container">
+ <h2><img src="<%= request.getContextPath() %>/images/logosample.png" alt="So? Would You?">회원가입 </h2>
+  <form class="form-horizontal" onsubmit="return false">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="id">아이디:</label>
+        <input type="text" class="form-control" id="id" placeholder="Enter id" name="mem_id">
+    <br>
+    <button id="idbtn" type="button" class="btn btn-danger btn-sm">중복검사</button>
+    <span id="spanid"></span>
+    </div>
+    
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="name">이름:</label>
+        <input type="text" class="form-control" id="name" placeholder="Enter name" name="mem_name">
+    </div>
+    
+    <div class="form-group ">
+      <label class="control-label col-sm-2" for="nick">닉네임:</label>
+        <input type="text" class="form-control" id="nick" placeholder="Enter nickName" name="mem_nick">
+    <br> 
+    <button id="nbtn" type="button" class="btn btn-danger btn-sm">중복검사</button>
+    <span id="spannick"></span>
+    </div>
+    
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email">이메일:</label>
+        <input type="text" class="form-control" id="email" placeholder="Enter email" name="mem_mail">
+     
+    </div>
+    
+    <div class="form-group mdata">
+      <label class="control-label col-sm-2" for="pwd">비밀번호:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="mem_pass">
+     
+    </div>
+    
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd2" id="pw2">비밀번호확인:</label>
+        <input type="password" class="form-control" id="pwd2" placeholder="Enter password" name="mem_pass2"><br>
+        <span id="chpass"></span>
+    </div>
+    
+    <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+        <button id="subbtn" type="submit" class="btn btn-primary btn-lg">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
+    

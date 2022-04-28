@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="calendar">
+	  
+	<select id="calenList" resultClass="calendarVO" parameterClass="int">
+		 select cal_num,
+        		cal_title,
+        		cal_cont,
+        		to_char(cal_start, 'YYYY-MM-DD"T"HH24:MI:SS') as cal_start,
+        		event_lgu,
+        		art_num,
+        		to_char(cal_end, 'YYYY-MM-DD"T"HH24:MI:SS') as cal_end,
+        		allday 
+   		   from calendar
+   		  where art_num=#art_num#  
+	</select>
+
+	<select id="artistList" parameterClass="String" resultClass="java.util.HashMap">
+		 select a.art_num, 
+        		a.art_name, 
+        		a.agc_num, 
+        		b.agc_id
+   		   from artist a, agency b
+  		  where a.agc_num=b.agc_num
+    		and b.agc_id=#agc_id#
+	</select>
+	 
+	 <insert id="insertSchedule" parameterClass="calendarVO">
+		insert into calendar(
+					cal_num 
+					,cal_title 
+					,cal_cont 
+					,cal_start 
+					,cal_end
+					,allday 
+					,event_lgu 
+					,art_num
+		) values(
+			cal_num_seq.nextval 
+			,#cal_title#
+			,#cal_cont#
+			,to_date(#cal_start#, 'YYYY/MM/DD HH24:MI:SS')  
+			,to_date(#cal_end#, 'YYYY/MM/DD HH24:MI:SS')
+			,#allday#
+			,#event_lgu# 
+			,#art_num#
+    	)
+	 </insert>
+	
+</sqlMap>	

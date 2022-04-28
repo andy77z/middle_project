@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="agency">
+	<!-- 소속사 정보 -->
+	<select id="getAgencyInfo" parameterClass="int" resultClass="agencyVO">
+		select * from agency where agc_num=#agc_num#
+	</select>
+	
+	<!-- 소속사 정보 수정 -->
+	<update id="updateAgencyInfo" parameterClass="agencyVO">
+		update agency set agc_mail=#agc_mail#,
+						  agc_photo=#agc_photo#
+					where agc_num=#agc_num#
+	</update>
+	
+	<!-- 비밀번호 수정 -->
+	<update id="updatePassword" parameterClass="agencyVO">
+		update agency set agc_pass=#agc_pass#
+					where agc_num=#agc_num#
+	</update>
+	
+</sqlMap>

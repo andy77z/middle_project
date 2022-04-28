@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+	<sqlMap namespace="freply">
+		<insert id="insertReply" parameterClass="replyVO">
+			insert into reply (rp_num, rp_cont, rp_id, rp_date, rp_like, rp_warn, bd_num, rp_profile, rp_nick)
+			values (
+				rp_num_seq.nextval,
+				#rp_cont#,
+				#rp_id#,
+				sysdate,
+				0,
+				0,
+				#bd_num#,
+				#rp_profile#,
+				#rp_nick#
+			)
+			<selectKey keyProperty="rp_num" resultClass="int">
+				select rp_num_seq.currval from dual
+			</selectKey>
+		</insert>
+		
+		<select id="selectReply" resultClass="replyVO" parameterClass="int">
+			select * from reply where bd_num = #idx# order by rp_num desc
+		</select>
+		
+		<delete id="deleteReply" parameterClass="int">
+			delete reply where rp_num=#idx#
+		</delete>
+		
+		<update id="modifyReply" parameterClass="replyVO">
+			update reply set rp_cont=#rp_cont#, rp_date = sysdate
+			where rp_num=#rp_num#
+		</update>
+	</sqlMap>

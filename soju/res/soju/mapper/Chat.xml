@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="chat">
+
+<!-- 채팅 리스트 불러오기 //현재 시각의 메시지를 다 가져온다? -->
+	<select id="chatList" resultClass="chatVO" parameterClass="String">
+		select chat_num, chat_cont, mem_nick, art_name, to_char(chat_time, 'am hh:mi:ss') as chat_time, photo
+        from chat 
+		<![CDATA[where chat_time <= sysdate ]]> 
+		and art_name = #art_name#
+		order by chat_time
+	</select>
+
+<!-- 사용자가 메시지를 입력할 수 있도록 -->	
+	<insert id="insertChat" parameterClass="chatVO">
+	 	insert into chat 
+	 	values(chat_num_seq.nextval,
+	 		   sysdate,
+	 		   #chat_cont#,
+	 		   #mem_nick#,
+	 		   #art_name#,
+	 		   #photo#)
+	</insert>
+	
+	
+
+<!-- 데이터 삭제 -->
+ 	<delete id="deleteChat">
+		delete from chat <![CDATA[where to_char(chat_time,'yyyymmddhh24miss') < to_char(sysdate - 1/24/60*10, 'yyyymmddhh24miss')]]>
+	</delete>
+	
+</sqlMap>

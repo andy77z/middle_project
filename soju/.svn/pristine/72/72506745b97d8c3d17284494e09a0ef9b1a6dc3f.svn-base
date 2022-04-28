@@ -1,0 +1,70 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+body{
+	width : 100%;
+	height : 100%;
+}
+.root1{
+	position: relative;
+	height: 100%
+}
+a{
+	color: inherit;
+	text-decoration: none;
+}
+*, :after, :before{
+	box-sizing: border-box;
+}
+button{
+	padding: 0px;
+	margin: 0px;
+	appearance: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+div{
+	display: block;
+}
+img{
+	vertical-align: middle;
+}
+.header1{
+	display: block;
+	width: 100%;
+	height: 75px;
+}
+.header11{
+	position: fixed;
+	display: flex;
+	align-items: center;
+	width: inherit;
+	height: inherit;
+	top: 0px;
+	left: 0px;
+	background-color: white;
+	border-bottom: 1px solid lightgray;
+	z-index: 1000;
+	padding: 0px 32px 0px 26px; 
+}
+.header111{
+	margin-right: auto;
+	display: flex;
+	align-items: center;
+}
+.mainlogo{
+	margin-left: 16px;
+	padding: 6px;
+}
+.header112{
+	margin-left: auto;
+	display: flex;
+}
+.header1122{
+	position: relateve;
+	margin: 0px 25px;
+}
+iframe{
+	width: 100%;
+	height: 1000px;
+}

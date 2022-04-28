@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="artist">
+	<!-- 아티스트 정보 -->
+	<select id="getArtistInfo" parameterClass="int" resultClass="artistVO">
+		select * from agency where agc_num=#agc_num#
+	</select>
+	
+	<!-- 아티스트 정보 수정 -->
+	<update id="updateAgencyInfo" parameterClass="artistVO">
+		update agency set art_mail=#art_mail#,
+						  art_photo=#art_photo#
+					where art_num=#art_num#
+	</update>
+	
+	<!-- 비밀번호 수정 -->
+	<update id="updatePassword" parameterClass="artistVO">
+		update artist set art_pass=#art_pass#
+					where art_num=#art_num#
+	</update>
+	
+	<!-- 내가 쓴 글 (세션 nick) fan에 있는 거 갔다 쓰면됨-->
+	
+</sqlMap>

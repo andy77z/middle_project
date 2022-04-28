@@ -1,0 +1,52 @@
+package soju.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import soju.util.SqlMapClientFactory;
+import soju.vo.PayVO;
+import soju.vo.TicketListVO;
+import soju.vo.TicketVO;
+
+public class FanDaoImpl implements IFanDao {
+	private static IFanDao dao;
+	private SqlMapClient smc;
+	
+	private FanDaoImpl() {
+		smc = SqlMapClientFactory.getSqlMapClient();
+	}
+	
+	public static IFanDao getInstance() {
+		if(dao == null) dao = new FanDaoImpl();
+		
+		return dao;
+	}
+	
+	//팬 내 이용권 목록
+	@Override
+	public List<TicketListVO> listTicket(int num) throws SQLException {
+		// TODO Auto-generated method stub
+		return smc.queryForList("fan.myTicket", num);
+	}
+
+	@Override
+	public List<PayVO> listPayment(int num) throws SQLException {
+		// TODO Auto-generated method stub
+		return smc.queryForList("fan.myPayList", num);
+	}
+
+	@Override
+	public String checkTicket(TicketVO vo) throws SQLException {
+		// TODO Auto-generated method stub
+		return (String) smc.queryForObject("fan.checkTicket", vo);
+	}
+
+	@Override
+	public String insertPay(TicketVO vo) throws SQLException {
+		// TODO Auto-generated method stub
+		return (String) smc.insert("fan.insertPay", vo);
+	}
+
+}

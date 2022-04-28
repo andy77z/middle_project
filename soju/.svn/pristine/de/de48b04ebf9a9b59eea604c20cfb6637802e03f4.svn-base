@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+	<sqlMap namespace="feed">
+		<insert id="contentUpload" parameterClass="boardVO">
+			insert into board (bd_num, bd_cont, bd_id, bd_nick, bd_date, bd_like, bd_warn,cate_num,bd_profile)
+			values(
+				board_num_seq.nextval,
+				#bd_cont#,
+				#bd_id#,
+				#bd_nick#,
+				sysdate,
+				0,
+				0,
+				#cate_num#,
+				#bd_profile#
+			)
+		</insert>
+		
+		<delete id="deleteContent" parameterClass="int">
+	        delete board where bd_num=#bd_num#
+	    </delete>
+	    
+      
+        <update id="modifyContent" parameterClass="boardVO">
+           update board set bd_cont=#bd_cont#, bd_date=sysdate
+           where bd_num=#bd_num#
+        </update>
+		
+		<select id="detailFeed" parameterClass="int" resultClass="boardVO">
+			select * from board where bd_num=#bd_num#
+		</select>
+		
+	</sqlMap>

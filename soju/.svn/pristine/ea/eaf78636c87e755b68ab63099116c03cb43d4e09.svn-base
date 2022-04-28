@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+	<sqlMap namespace="feed">
+		<insert id="contentUpload" parameterClass="boardVO">
+			insert into board (bd_num, bd_cont, bd_id, bd_date, bd_like, bd_warn,cate_num)
+			values(
+				board_num_seq.nextval,
+				#bd_cont#,
+				#bd_id#,
+				sysdate,
+				0,
+				0,
+				1		
+			)
+		</insert>
+		<select id="printContent" resultClass="boardVO" parameterClass="int">
+			select a.bd_num, a.bd_id, a.bd_date, a.bd_cont from board a, category b where a.cate_num=b.cate_num 
+			and cate_name='feed' and art_num=#num# order by a.bd_num desc
+		</select>
+	</sqlMap>

@@ -1,0 +1,32 @@
+<%@page import="soju.vo.TicketVO"%>
+<%@page import="java.util.List"%>
+<%@page import="soju.vo.TicketListAllVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%
+	List<TicketVO> list = (List<TicketVO>)request.getAttribute("listAllPay");
+%>
+
+[
+<%
+	int i =0;
+	for(TicketVO vo : list){
+		if(i > 0) out.print(",");
+
+%>
+{
+			    "tic_num" : "<%= vo.getTic_num() %>",
+				"mem_num" : "<%= vo.getMem_num() %>",
+				"art_num" : "<%= vo.getArt_num() %>",
+				"tic_sdate" : "<%= vo.getTic_sdate() %>",
+				"tic_edate" : "<%= vo.getTic_edate() %>",
+				"tic_state" : "<%= vo.getTic_state() %>",
+				"pay_num" : "<%= vo.getPay_num() %>"
+		}
+		
+<%
+i++;
+	}
+%>
+]

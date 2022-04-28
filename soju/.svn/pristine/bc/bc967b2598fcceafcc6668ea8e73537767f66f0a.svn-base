@@ -1,0 +1,32 @@
+package soju.dao;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import sun.security.jca.GetInstance;
+import soju.util.SqlMapClientFactory;
+import soju.vo.CalendarVO;
+
+
+public class CalendarDaoImpl implements ICalendarDao{
+
+	private SqlMapClient smc;
+	private static CalendarDaoImpl dao;
+	
+	private CalendarDaoImpl() {
+		smc = SqlMapClientFactory.getSqlMapClient();
+	}
+	
+	public static CalendarDaoImpl getInstance() {
+		if(dao==null) dao = new CalendarDaoImpl();
+		return dao;
+	}
+	
+	
+	@Override
+	public ArrayList<CalendarVO> calenList() throws SQLException {
+		return (ArrayList<CalendarVO>)smc.queryForList("calendar.calenList");
+	}
+}

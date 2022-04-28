@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="home">
+	<select id="selectHomeArtist" resultClass="artistVO">
+		 select art_num, art_name, gr_name, art_photo from artist where gr_name='1' order by 1 asc
+	</select>
+
+	<select id="selectMember" resultClass="memberVO">
+		select mem_num, mem_id, mem_name, mem_nick, mem_mail, warn_cnt, 
+		nvl(ban,' ') ban, nvl(premium,' ') premium, nvl(mem_photo,' ') mem_photo, 
+        nvl(mem_resign,' ') mem_resign from member order by 1
+	</select>
+
+	<select id="selectAgency" resultClass="agencyVO">
+		select agc_num, agc_id, agc_pass, agc_name, agc_mail, agc_photo from agency order by 1
+	</select>
+	
+	<select id="selectAdminArtist" resultClass="artistVO">
+		select art_num, art_id, art_pass, art_name, gr_name, art_mail, art_photo, sub_cnt, agc_num, art_resign from artist order by 1
+	</select>
+	
+	<select id="listAllTicket" resultClass="ticketListAllVO">
+		select a.tic_num, b.mem_id, c.art_name, a.tic_sdate, a.tic_edate, a.tic_state,a.pay_num
+		  from ticket a,member b,artist c
+	     where b.mem_num = a.mem_num
+           and c.art_num = a.art_num
+	</select>
+	
+	<select id="listAllPay" resultClass="payVO">
+	 select * from pay
+	</select>
+</sqlMap>

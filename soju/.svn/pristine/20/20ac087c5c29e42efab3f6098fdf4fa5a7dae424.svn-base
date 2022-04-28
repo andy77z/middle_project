@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/mediamain.css">
+<script src="<%= request.getContextPath() %>/js/jquery-3.6.0.min.js"></script>
+<script src="<%= request.getContextPath() %>/js/media.js"></script>
+<script>
+	cate_num = 5;
+	$(function(){
+		getMediaList();
+	})
+</script>
+</head>
+<body>
+	<header class="header"></header>
+	<section class="page">
+		<aside class="left">
+		
+		</aside>
+		<section class="center">
+			<div class="outer">
+				<section class="inner">
+					<div class="category">
+						<h2 class="categoryname">영상</h2>
+						<a class="action showAll" href="<%= request.getContextPath() %>/media/videoAll.jsp">모두 보기</a>
+					</div>
+					<ul class="video-list">
+						
+					</ul>
+				</section>
+				
+				<section class="inner">
+					<div class="category">
+						<h2 class="categoryname">사진</h2>
+						<a class="action showAll" href="<%= request.getContextPath() %>/media/photoAll.jsp">모두 보기</a>
+					</div>
+					<ul class="photo-list">
+						
+					</ul>
+				</section>
+				
+			</div>
+			<div class="footer">
+				<div class="footer fout">
+					<div class="footer fin">ⓒSo? Would You? Team.Any Question?</div>
+				</div>
+			</div>
+		</section>
+	</section>
+
+	
+</body>
+</html>

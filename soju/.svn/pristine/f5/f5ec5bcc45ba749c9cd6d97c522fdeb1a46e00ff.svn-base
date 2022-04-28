@@ -1,0 +1,8 @@
+package soju.service;
+
+import java.util.ArrayList;
+import soju.vo.CalendarVO;
+
+public interface ICalendarService {
+	public ArrayList<CalendarVO> calenList();
+}

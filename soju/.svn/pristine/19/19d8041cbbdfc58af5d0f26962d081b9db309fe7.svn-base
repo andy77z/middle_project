@@ -1,0 +1,83 @@
+package soju.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import soju.dao.FanDaoImpl;
+import soju.dao.IFanDao;
+import soju.vo.PayVO;
+import soju.vo.TicketListVO;
+import soju.vo.TicketVO;
+
+
+public class FanServiceImpl implements IFanService {
+	private static IFanService service;
+	private IFanDao dao;
+	
+	private FanServiceImpl() {
+		dao = FanDaoImpl.getInstance();
+	}
+	
+	public static IFanService getInstance() {
+		if(service == null) service = new FanServiceImpl();
+		
+		return service;
+	}
+	
+	//팬 내 이용권 목록
+	@Override
+	public List<TicketListVO> listTicket(int num) {
+		List<TicketListVO> list = null;
+		
+		try {
+			list = dao.listTicket(num);
+		} catch (SQLException e) {
+			list = null;
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<PayVO> listPayment(int num) {
+		List<PayVO> list = null;
+		
+		   try {
+			list = dao.listPayment(num);
+		} catch (SQLException e) {
+			list = null;
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public String checkTicket(TicketVO vo) {
+		  String check = null;
+		
+		try {
+			check = dao.checkTicket(vo);
+		} catch (SQLException e) {
+			check = null;
+			e.printStackTrace();
+		}
+		return check;
+	}
+
+	@Override
+	public String insertPay(TicketVO vo) {
+		String check = null;
+		
+		try {
+			check = dao.insertPay(vo);
+		} catch (SQLException e) {
+			check = null;
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
+
+ 
+}

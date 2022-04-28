@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="fan">
+	<!--  -->
+	<!-- 내정보 -->
+	<select id="myInfo" parameterClass="int" resultClass="memberVO">
+		select * from member where mem_num=#mem_num#
+	</select>
+	
+	<!-- 내정보 수정 -->
+	<!-- nick수정 전에 join.xml에 있는 중복검사 실행 -->
+	<update id="updateMyInfo" parameterClass="memberVO">
+		update member set mem_nick=#mem_nick#,
+						  mem_mail=#mem_mail#,
+						  mem_photo=#mem_photo#
+					where mem_num=#mem_num#
+	</update>
+	
+	<!-- 비밀번호 수정 -->
+	<update id="updatePassword" parameterClass="memberVO">
+		update member set mem_pass=#mem_pass#
+					where mem_num=#mem_num#
+	</update>
+	
+	<!-- 회원탈퇴는 manager.xml에 있는 resignMember 쓰면됨 -->
+	
+	<!-- 내가 쓴 글 (세션 nick)-->
+	<select id="myPost" parameterClass="String" resultClass="memberVO">
+		select * from board where bd_id=#bd_id#
+	</select>
+	
+	<!-- 구독 목록 -->
+	<select id="subList" parameterClass="int" resultClass="subscribeVO">
+		select * from subscribe where mem_num=#mem_num#
+	</select>
+	
+	<!-- 구독 취소 -->
+	<delete id="deleteSub" parameterClass="int">
+		delete from subscribe where sub_num=#sub_num#
+	</delete>
+	
+	<!-- 결제 내역 -->
+	<select id="myPayList" parameterClass="int" resultClass="payVO">
+		select * from pay where mem_num=#mem_num#
+	</select>
+	
+	<!-- 이용권 테이블 수정 필요함!!
+		  아니면 아티스트 테이블 수정필요함
+		  그룹하나에 아티스트 번호가 여러개라서 애매함 -->
+	<!-- 내 이용권 목록 -->
+	<select id="myTicket" parameterClass="int" resultClass="ticketListVO">
+		select a.TIC_NUM, a.TIC_SDATE, a.TIC_EDATE, a.TIC_STATE, b.ART_NAME
+		from ticket a, artist b  where a.mem_num =#data# and a.ART_NUM = b.ART_NUM
+	</select>
+	
+	<!-- 이용권 조회 -->
+	<select id="ticketDetail" parameterClass="int" resultClass="ticketVO">
+		select * from ticket where tic_num=#tic_num#
+	</select>
+	
+	<!-- 이용권 유무 체크(없으면 결제하기 위해) -->
+	<select id="checkTicket" parameterClass="ticketVO" resultClass="ticketVO">
+		select * 
+		  from ticket 
+		 where mem_num= #mem_num#
+           and art_num= #art_num#
+           and tic_state!='O'
+		 
+	</select>
+	
+	<!-- 이용권 결제 후 DB PAY테이블에 Insert -->
+	<insert id="insertPay" parameterClass="ticketVO">
+		insert into pay
+				values (PAY_NUM_SEQ.nextval, (select art_name as artN
+				from artist b
+				where art_num = #art_num#), 
+				3500, sysdate , 
+				'N', 
+				#mem_num#, 
+				(select agc_num as agcN
+				from artist b
+				where art_num = #art_num#))
+		<selectKey resultClass="int" keyProperty="pay_num">
+				select PAY_NUM_SEQ.currval from dual
+		</selectKey>
+	</insert>
+	
+	<!-- 이용권 결제 후 DB PAY테이블에 Insert 후 Ticket테이블에 insert-->
+	<insert id="insertTicket" parameterClass="ticketVO">
+		insert into ticket 
+     	values (TIC_NUM_SEQ.nextval, #mem_num#, #art_num#, sysdate, to_char(add_months(sysdate,+1),'yyyy-mm-dd'),'N',#pay_num#)
+	</insert>
+	
+	 <!-- 환불버튼 클릭 시 1.티켓 상태 변경 -->
+	<update id="updateTicket" parameterClass="int">
+	
+	  update ticket set tic_state= 'O' where tic_num = #data#
+	
+	</update>
+	
+	 <!-- 환불버튼 클릭 시 2.결제 상태 변경 -->
+	<update id="updatePay" parameterClass="int">
+	
+	  update pay set refund='Y' where pay_num=(select pay_num from ticket where tic_num=#data#)
+	
+	</update>
+	
+	<!-- 환불 조건 검사 => 나온 값이 7 미만일때만 환불처리 (tic_state가 N 이여야함)-->
+	<select id="checkCondition" parameterClass="int">
+		select sysdate-a.pay_date as day
+		 from pay a,ticket b
+		 where a.pay_num=#pay_num#
+		   and b.tic_state='N'
+	</select>
+	
+	<!-- 환불 처리1-->
+	<update id="refund" parameterClass="int">
+		update pay set refund='Y' where pay_num=#pay_num#
+	</update>
+	
+	<!-- 환불 처리2-->
+	<delete id="deleteTicket" parameterClass="int">
+		delete from ticket where pay_num=#pay_num#
+	</delete>
+	
+	
+	
+	
+	<!--      -->
+	<!-- 알림 -->
+	
+	<!-- 알림설정 -->
+	
+	<!--     -->
+	<!--  -->
+	
+</sqlMap>

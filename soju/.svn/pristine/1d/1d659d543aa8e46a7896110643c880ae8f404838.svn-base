@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="calendar">
+	  
+	<select id="calenList" resultClass="calendarVO">
+		 select cal_num,
+        		cal_title,
+        		cal_cont,
+        		to_char(cal_start, 'YYYY-MM-DD"T"HH24:MI:SS') as cal_start,
+        		event_lgu,
+        		art_num,
+        		to_char(cal_end, 'YYYY-MM-DD"T"HH24:MI:SS') as cal_end,
+        		allday 
+   		   from calendar 
+	</select>
+
+	<!-- 참조 블로그 내용 
+	 <mapper namespace="CalenDao">
+	  <resultMap type="calen" id="calMap">
+	   <result property="start" column="start1"/>
+	   <result property="end" column="end1"/>
+	  </resultMap>
+	  <select id="calenList" resultMap="calMap">
+	  	 SELECT id, title, TO_char(start1, 'YYYY-MM-DD"T"HH24:MI:SS') start1,
+	  	  TO_char(end1, 'YYYY-MM-DD"T"HH24:MI:SS') end1, ALLDAY, 
+	  	  TEXTCOLOR, BACKGROUNDCOLOR, BORDERCOLOR FROM CALENDAR 
+	  </select> 
+	 </mapper>
+
+	 --> 
+	 
+	
+</sqlMap>	

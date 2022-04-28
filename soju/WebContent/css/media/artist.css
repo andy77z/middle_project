@@ -1,0 +1,179 @@
+@charset "UTF-8";
+body{
+	background-color: rgb(250, 251, 252);
+    color: rgb(32, 36, 41);
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.4;
+    letter-spacing: normal;
+    width: 100%;
+    height: 100%;
+}
+.root1{
+	position: relative;
+	height: 100%
+}
+a{
+	color: inherit;
+	text-decoration: none;
+}
+*, :after, :before{
+	box-sizing: border-box;
+}
+div{
+	display: block;
+}
+.header1{
+	display: block;
+	width: 100%;
+	height: 75px;
+}
+.header11{
+	position: fixed;
+	display: flex;
+	align-items: center;
+	width: inherit;
+	height: inherit;
+	top: 0px;
+	left: 0px;
+	background-color: white;
+	border-bottom: 1px solid lightgray;
+	z-index: 1000;
+	padding: 0px 32px 0px 26px; 
+}
+.header111{
+	margin-right: auto;
+	display: flex;
+	align-items: center;
+}
+.mainlogo{
+	margin-left: 16px;
+	padding: 6px;
+}
+.header112{
+	margin-left: auto;
+	display: flex;
+}
+.join, .login{
+	display: inline-block;
+	background-color: #2C7CE6;
+	border-width: 0px;
+	border-color: #2C7CE6;
+	border-style: solid;
+	border-radius: 18px;
+	color: white;
+	padding: 0px 20px;
+	font-size: 14px;
+	height: 32px;
+	text-align: center;
+	cursor: pointer;
+}
+.section0{
+	margin: 0px auto;
+	display: flex;
+	flex-direction: column;
+	width: 1136px;
+	padding: 0px 48ox;
+}
+.section1{
+	margin-top: 40px;
+}
+.homeArtistList{
+	position: relative;
+	width: calc(100% + 16px);
+	margin-left: -8px;
+	margin-right: -8px;
+}
+.homeArtist1{
+	margin: 0px 8px 16px;
+	width: 248px;
+	display: inline-block;
+}
+.homeArtist2{
+	display: inline-block;
+	text-align: center;
+	background-color: white;
+	width: 100%;
+	height: 256px;
+	border-radius: 8px;
+	overflow: hidden;
+	position: relative;
+	vertical-align: top;
+	box-shadow: 0px 2px 8px;
+}
+.homeArtistPhoto1{
+	width: 100%;
+	height: 186px;
+	overflow: hidden;
+}
+.homeArtistPhoto2{
+	width: 100%;
+	height: 186px;
+	background-color: rgb(245, 247, 250);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center bottom;
+	border-radius: 0px;
+}
+.homeArtistName1{
+	height: 70px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0px 18px;
+}
+.homeArtistName2{
+	font-size: 20px;
+	font-weight: bold;
+	text-align: left;
+	color : black;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.fcolor{
+	color : #2C7CE6; 
+}
+.aname a{
+	text-decoration: none;
+	font-family: 'Readex Pro', sans-serif;
+    text-decoration: none;
+	color : #2C7CE6; 
+    font-size: 38px;
+    font-weight: 800;
+    margin-left : 10px;
+}
+.amenu{
+    margin-bottom: 20px;
+}
+.amenu a{
+	text-decoration: none;
+	font-family: 'Readex Pro', sans-serif;
+    text-decoration: none;
+   
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    margin-left : 10px;
+}
+.profile img{
+	width: 100px;
+	height: 100px;
+	margin: 20px;
+	border-radius : 50%;
+}
+aside{
+	float :left;
+	width: 400px;
+}
+footer{
+	float :right;
+	width: 300px;
+}
+.fn{
+	font-weight: bold;
+}

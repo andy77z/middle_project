@@ -1,0 +1,76 @@
+/**
+ * 
+ */
+
+// 댓글 등록
+function insertReply(){
+	$.ajax({
+		url : '/team3/ArtReplyInsert.do',
+		type : 'post',
+		data : reply,
+		success : function(res){
+			alert(res.sw);
+			
+			// append를 위한 rcode
+			rcode = '';
+			$.each(res, function(i, v){
+				
+				rcode += '<div class="artReplyImg">';
+				rcode += '<img class ="repImg" src="../images/BLACKPINK.jpg">';
+				rcode += '</div>';
+				alert(v.rp_nick);
+				rcode += '<div class="repInfo" rdx='+ v.rp_num +'>';
+				rcode += '<span class="repName">'+ v.rp_nick +'</span>';
+				
+				//드롭다운
+				rcode += '<div class="dropdown">';
+				rcode += '<button class="moreBtn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">더보기';  
+				rcode += '<span class="caret"></span></button>';  
+				rcode += '<ul class="dropdown-menu dropdown-menu-right">';  
+//				rcode += '<li><a href="#">댓글신고</a></li>';
+				
+				//글 작성자와 로그인한 아이디와 같으면
+//				if(v.bd_nick==art_name){
+					rcode += '<li><button class="dropdownBtn" name="updateBtn" type="submit">수정</button></li>';
+					rcode += '<li><button class="dropdownBtn" name="deleteBtn" type="submit">삭제</button></li>';
+				//글 작성자와 로그인한 아이디가 다르면
+//				}else{
+					rcode += '<li><button class="dropdownBtn" name="reportBtn" type="submit">';
+					rcode +=	'<img class="reportImg"src="../images/report.png">신고</button></li>';
+//				}
+				  
+				rcode += '</ul>';  
+				rcode += '</div>';  
+				
+				//드롭다운 종료
+				
+				
+				rcode += '<span class="artReply">'+ v.rp_cont +'</span> ';
+				rcode += '</div>';
+				rcode += '<div class=artReplyLike>';
+				rcode += '<label aria-disabled="false" role="button">';
+				
+//				rcode += '<input class="replyLikeCheck" type="checkbox">';
+//				rcode += '<img src="../images/star.png">';
+//				rcode += '<span>'+ v.rp_like +'</span>';
+				
+				rcode += '<input class="reactLikeCheck" type="checkbox">';
+				rcode += '<img class="likeBtn';
+					if(v.on=="on") rcode += ' on"';
+					else rcode += '"';
+				rcode +=	' src="../images/star.png">';
+				rcode += '<span class="reactCount">'+ v.rp_like +'</span>';
+				rcode += '</label>';
+				rcode += '<span class="repDate">'+ v.rp_date +'</span>';
+				rcode += '</div>';
+
+				$('.artReplyList').append(rcode);
+			});
+		},
+		error : function(xhr){
+			alert("상태: " + xhr.status);
+		},
+		dataType : 'json'
+		
+	});
+};

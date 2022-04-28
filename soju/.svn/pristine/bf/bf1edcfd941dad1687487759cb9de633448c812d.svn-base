@@ -1,0 +1,48 @@
+package soju.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import soju.util.SqlMapClientFactory;
+import soju.vo.AgencyVO;
+import soju.vo.ArtistVO;
+import soju.vo.MemberVO;
+
+public class HomeDaoImpl implements IHomeDao {
+
+	private SqlMapClient smc;
+	private static IHomeDao dao;
+	
+	private  HomeDaoImpl() {
+		smc = SqlMapClientFactory.getSqlMapClient();
+	}
+	
+	public static IHomeDao getHomeDao() {
+		if (dao == null) dao = new HomeDaoImpl();
+		
+		return dao;
+	}
+	
+	@Override
+	public List<ArtistVO> listArtist() throws SQLException {
+		return smc.queryForList("home.selectHomeArtist");
+	}
+
+	@Override
+	public List<MemberVO> listMember() throws SQLException {
+		
+		return smc.queryForList("home.selectMember");
+	}
+
+	@Override
+	public List<AgencyVO> listAgency() throws SQLException {
+		return smc.queryForList("home.selectAgency");
+	}
+
+	@Override
+	public List<ArtistVO> listArtistAdmin() throws SQLException {
+		return smc.queryForList("home.selectAdminArtist");
+	}
+}

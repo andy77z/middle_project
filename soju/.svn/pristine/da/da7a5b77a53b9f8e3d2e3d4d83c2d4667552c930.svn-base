@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="login">
+  
+	<!-- 정보확인 --> 
+	 <select id="checkMember" resultClass="int" parameterClass="login_infoVO">
+	 	select type from login_info where id = #id# and password = #password#
+	 </select>
+	 
+	 <select id="getMemberInfo" resultClass="memberVO" parameterClass="memberVO">
+	 	select * from member where mem_id=#mem_id# and mem_pass=#mem_pass#
+	 </select>
+	 
+	 <select id="getArtistInfo" resultClass="artistVO" parameterClass="artistVO">
+	 	select * from artist where art_id=#art_id# and art_pass=#art_pass#
+	 </select>
+	 
+	 <select id="getAgencyInfo" resultClass="agencyVO" parameterClass="agencyVO">
+	 	select * from agency where agc_id=#agc_id# and agc_pass=#agc_pass#
+	 </select>
+	 
+	 <select id="getManagerInfo" resultClass="managerVO" parameterClass="managerVO">
+	 	select * from manager where mng_id=#mng_id# and mng_pass=#mng_pass#
+	 </select>
+	
+</sqlMap>	

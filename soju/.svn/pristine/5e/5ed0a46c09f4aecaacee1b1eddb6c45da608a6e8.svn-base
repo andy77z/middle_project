@@ -1,0 +1,108 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="chatting.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="<%= request.getContextPath() %>/js/chatting.js"></script>
+<script>
+
+art_num = 2;
+art_name = "";
+mem_nick = "ME";
+//아티스트 이름이랑 내 이름은 임의로 지정..
+$(function () {
+	
+	getArtist();
+	deleteChat();	//데이터 자동삭제 지금시간에서 10분전꺼 사라짐	
+
+
+	
+	//채팅하기 누르면 채팅박스 나오게 (해당 아티스트 방의 채팅 내용만 나와야됨.)
+	$('#start').on('click', function () {
+		idx = $(this).attr('idx');
+		chatList();
+		
+// 		console.log(idx)
+	
+		//insert
+		$('#but').on('click', function() {
+			art_name = $('.'+idx).attr('class')
+			cont = $('.messa').val();
+			cont = cont.replace(/\r/g, "").replace(/\n/g, "<br>");
+			
+			insertChat();
+		})
+		
+		//엔터치면 전송버튼 눌리게
+		$(".messa").keyup(function(event) {
+		    if (event.keyCode === 13) {
+		        $("#but").click();
+		    }
+		})
+		
+		//나가기 버튼 누르면 채팅창 숨김   >>> 원래 화면으로 돌아가기로 변경하기!
+		$('#end').on('click', function () {
+			
+			$('.'+idx).hide();
+			$('#end').hide();
+			$('#start').show();
+		})
+	})
+	
+$('#art').on('click', function () {
+	chatListArt();
+})
+
+$('#all').on('click', function () {
+	chatList();
+})
+
+
+
+
+})
+
+</script>
+<body>
+
+<input type="button" value="채팅하기" id="start" idx="">
+<input type="button" value="나가기" id="end" hidden>
+<input type="button" value="데이터 지우기" id="del">
+
+<div class="" hidden id="chatbox">
+	<h3 class="title" class="title">Message</h3>
+	<div class="container title more">
+	  <div class="dropdown">
+	    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">더보기
+	    <span class="caret"></span></button>
+	    <ul class="dropdown-menu">
+	      <input type="button" value="전체대화 보기" id="all"></input>
+	      <input type="button" value="아티스트 글만 보기 " id="art"></input>
+	    </ul>
+	  </div>
+	</div>
+	<hr>
+	<div class="pchat">		
+
+	</div>
+	<!-- 메시지 보내기 -->
+		<form>
+			<div>
+				<hr>
+				<div style="float: left; width: 82%;">
+				<textarea class="messa" placeholder="채팅입력.."></textarea>
+				</div>
+				<input type="button" id="but" value="전송">
+			</div>
+		</form>
+
+</div>
+
+</body>
+</html>

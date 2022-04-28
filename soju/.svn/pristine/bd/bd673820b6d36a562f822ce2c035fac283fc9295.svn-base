@@ -1,0 +1,319 @@
+@charset "UTF-8";
+
+html{
+	cursor: default;
+    line-height: 1.5;
+    -moz-tab-size: 4;
+    tab-size: 4;
+    -webkit-tap-highlight-color: transparent;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    word-break: break-word;
+}
+body {
+    background-color: rgb(255, 255, 255);
+    color: rgb(32, 36, 41);
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.4;
+    letter-spacing: normal;
+    width: 100%;
+    height: 100%;
+}
+header {
+    display: block;
+}
+div {
+    display: block;
+}
+section {
+    display: block;
+}
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+iframe, img {
+    border-style: none;
+}
+audio, canvas, iframe, img, svg, video {
+    vertical-align: middle;
+}
+button {
+    padding: 0px;
+    margin: 0px;
+    appearance: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: button;
+}
+#root{
+	width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.page{
+	position: relative;
+    height: 100%;
+}
+.header{
+	display: block;
+    width: 100%;
+    height: 75px;
+}
+.big{
+	display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    min-width: 1200px;
+    height: calc(100% - 75px);
+}
+#scroll{
+	flex: 1 1 0%;
+    min-width: 822px;
+    margin-right: 10px;
+    overflow: hidden auto;
+    background-color: rgb(255, 255, 255);
+}
+.left-cont{
+	background: rgb(255, 255, 255);
+    padding: 0px 20px 20px;
+    flex: 1 1 0%;
+}
+.title-box{
+	padding: 20px 0px;
+    border-bottom: 1px solid rgb(235, 235, 235);
+    line-height: 1.5;
+}
+.title{
+	    font-size: 20px;
+    font-weight: 500;
+    margin: 0px 0px 8px;
+}
+.date{
+	color: rgb(173, 177, 184);
+    font-size: 12px;
+}
+.content-box{
+	padding: 20px 0px 40px;
+    line-height: 1.43;
+    color: rgb(52, 58, 64);
+    min-height: 160px;
+}
+.image-box{
+	margin-bottom: 60px;
+}
+.images{
+	position: relative;
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+.image{
+	max-width: 100%;
+    height: auto;
+}
+.bottom{
+	padding: 0px;
+    margin: 0px;
+    font-size: 14px;
+    color: rgb(135, 142, 150);
+}
+.right-cont{
+	position: relative;
+    width: 380px;
+    overflow: hidden;
+}
+.right-box{
+	position: absolute;
+    background: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+.right-box2{
+	display: flex;
+    flex-direction: column;
+    width: 380px;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+}
+.count-box{
+	height: 66px;
+    padding: 20px 0px;
+    margin: 0px 20px;
+    border-bottom: 1px solid rgb(235, 235, 235);
+}
+.count{
+	display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    color: rgb(135, 142, 150);
+}
+.like{
+	cursor: pointer;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.like-check{
+	opacity: 0;
+    position: absolute;
+    pointer-events: none;
+}
+.like-count{
+	margin-left: 5px;
+    color: rgb(135, 142, 150);
+}
+.reply-box{
+	margin-left: 28px;
+}
+.reply-page{
+	display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: calc(100% - 66px);
+}
+.reply1{
+	position: relative;
+	flex: 1 1 0%;
+    overflow: hidden auto;
+    padding: 20px;
+}
+.reply2{
+	position: relative;
+	overflow: visible;
+    width: 0px;
+}
+.reply3{
+	box-sizing: border-box;
+    direction: ltr;
+    height: auto;
+    position: relative;
+    width: 323px;
+    will-change: transform;
+    outline: none;
+    overflow: visible;
+}
+.reply4{
+	width: auto;
+    height: 1182px;
+    max-width: 323px;
+    max-height: 1182px;
+    overflow: visible;
+    position: relative;
+}
+.reply5{
+	height: 73px;
+    left: 0px;
+    position: absolute;
+    top: 40px;
+    width: 100%;
+}
+.reply-cont-box{
+	display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    margin-bottom: 20px;
+}
+.profile-box{
+	width: 32px;
+    height: 32px;
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+}
+.profile{
+	direction: ltr;
+}
+.profile-img{
+	width: 32px;
+    height: 32px;
+    display: block;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.reply-content{
+	position: relative;
+    flex: 1 1 0%;
+    margin-left: 8px;
+    margin-right: 20px;
+}
+.reply-one{
+	position: relative;
+    padding: 6px 12px;
+    background-color: rgb(245, 247, 250);
+    color: rgb(52, 58, 64);
+    font-size: 13px;
+    line-height: 1.54;
+    border-radius: 0px 12px 12px;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    vertical-align: top;
+}
+.nickname{
+	font-weight: bold;
+    color: rgb(52, 58, 64);
+}
+.reply-text{
+	margin-left: 6px;
+}
+.more{
+	position: absolute;
+    display: inline-flex;
+    top: 2px;
+    cursor: pointer;
+    visibility: hidden;
+    z-index: 10;
+}
+.morebutton{
+	width: 24px;
+    height: 24px;
+    background-image: url(data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath fill='%23ADB1B8' fill-rule='evenodd' d='M16 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-5 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-5 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0z'/%3E %3C/svg%3E);
+}
+.under-reply{
+	color: rgb(52, 58, 64);
+    font-size: 12px;
+    line-height: 1.5;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-top: 3px;
+}
+.reply-like{
+	cursor: pointer;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+}
+.reply-date{
+	white-space: nowrap;
+    color: rgb(173, 177, 184);
+}

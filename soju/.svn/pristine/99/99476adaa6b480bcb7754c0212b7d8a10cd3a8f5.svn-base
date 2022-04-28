@@ -1,0 +1,126 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<style>
+*{
+/*border : 1px solid blue;*/
+}
+.ziptr:hover{
+	background: lightblue;
+}
+.container{
+	/*border : 1px solid blue;*/
+	max-width : 680px;
+	width : 500px;
+	margin-top: 10px;
+}
+.container h2{
+	margin-left: 80px;
+    padding: 30px;
+    display: block;
+    width: 400px;
+}
+.container input{
+	width: 200px;
+	
+}
+.form-group input,.form-group label{
+	margin-left: 150px;
+}
+#libtn{
+	margin-left: 150px;
+	margin-right: 5px;
+}
+.btn{
+	margin-bottom: 10px;
+}
+.pw2{
+	width: 120px;
+}
+
+</style>
+<html lang="kr">
+<head>
+  <title>회원 로그인</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="../js/jquery.serializejson.min.js"></script>
+  <script>
+  $(function(){
+
+  	//로그인하기
+  	$('#libtn').on('click',function(){
+  		
+  		idval = $('#id').val().trim();
+  		passval = $('#pwd').val().trim();
+  		
+  		$.ajax({
+  	  		url : '/soju/login.do',
+  	  		data : {"id" : idval,
+  	  				"pass" : passval
+  	  				},
+  	  		type : 'post',
+  	  		success: function(res){
+  	  			if(res.sw=="성공"){
+	  	  			opener.location.href="<%=request.getContextPath()%>/jsp/main/loginMain.jsp";
+	  	  			window.close();
+  	  			}
+//   	  			else{
+//   	  			alert("로그인 정보가 올바르지 않습니다.\n다시 로그인해주세요.");
+//   	  			}
+  	  		},
+  	  		error : function(xhr){
+//   	  			alert("상태 : "+xhr.statustext);
+  	  		alert("로그인 정보가 올바르지 않습니다.\n다시 로그인해주세요.");
+  	  			
+  	  		},
+  	  		dataType: 'json'
+  		})
+  	})
+  	
+  	//아이디/비번찾기
+  	$('#findbtn').on('click', function(){
+  		//location.href = "/soju/member/findId.jsp";
+  		window.open("<%=request.getContextPath()%>/jsp/member/findMember.jsp","_blank","width=550 height=600");
+  		
+
+  		
+  	})
+  	
+  })
+
+  </script>
+  
+</head>
+<body>
+
+<div class="container">
+ <h2><img src="<%= request.getContextPath() %>/images/logosample.png" alt="So? Would You?">로그인 </h2>
+  <form class="form-horizontal" onsubmit="return false">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="id">아이디:</label>
+        <input type="text" class="form-control" id="id" placeholder="Enter id" name="mem_id">
+    </div>
+    
+    <div class="form-group mdata">
+      <label class="control-label col-sm-2" for="pwd">비밀번호:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="mem_pass">
+        <br>
+    </div>
+       
+    <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-5">
+        <button id="libtn" type="submit" class="btn btn-primary">Login</button>
+        <button id="findbtn" type="button" class="btn btn-primary">ID/PW Find</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
+    

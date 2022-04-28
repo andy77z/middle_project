@@ -1,0 +1,141 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/photoDetail2.css">
+<script src="<%= request.getContextPath() %>/js/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="<%= request.getContextPath() %>/js/media.js"></script>
+<%
+	String num = request.getParameter("num");
+%>
+<script>
+	reply = {};
+	num = <%= num %>;
+$(function(){
+	getVideoDetail();
+	
+	$('input[name=bd_num]').val(num);
+	
+	$('.delete').on('click', function(){
+		deletePhoto();
+	})
+	
+	$('.modify').on('click', function(){
+		title = $('.title').text();
+		$('input[name=title]').val(title);
+		content = $('.content').html();
+		content = content.replace(/""/g, "\r").replace(/"<br>"/g, "\n")
+		$('textarea').val(content);
+	})
+	
+	$('.submit').on('click',function(){
+		data = $('form').serializeArray();
+		updateBoard();
+	})
+	
+	$('.insert').on('click',function(){
+		reply.bd_num = num;
+		reply.rp_nick = "댓글러"; // 세션에서 닉네임 가져오기
+		reply.rp_profile = "/team3/images/임영웅 (3).jpg"; // 세션에서 프로필사진 가져오기
+		reply.rp_cont = $('.textbox').val();
+		
+		insertVideoReply();
+	})
+})
+</script>
+</head>
+<body>
+
+	<!-- 내용 수정 -->
+	<div id="modifyphoto" class="modal fade" role="dialog">
+	  <div class="modal-dialog modal-lg">
+	
+	    <!-- content -->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">내용 수정</h4>
+	      </div>
+      	<form>
+	      <div class="modal-body">
+			  <div class="form-group">
+			    <label for="title">제목:</label>
+			    <input type="text" class="form-control" name="bd_title">
+			  </div>
+			  <div class="form-group">
+			    <label for="content">내용:</label>
+			    <textarea class="form-control" name="bd_cont"></textarea>
+			  </div>
+              <input type="hidden" name="bd_num">
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default submit">수정</button>
+	      </div>
+		</form>
+	    </div>
+	
+	  </div>
+	</div>
+
+	<header class="header"></header>
+	<section class="page">
+		<aside class="left">
+		
+		</aside>
+		<section class="center">
+			<div class="outer">
+				<section class="inner">
+					<div class="title-box">
+						<h2 class="title"></h2>
+						<div class="writer"></div>
+						<div class="date">
+							<span></span>
+						</div>
+						<button type="button" class="btn btn btn-sm action delete">
+						삭제</button>
+						<button type="button" class="btn btn btn-sm action modify" data-toggle="modal" data-target="#modifyphoto">
+						수정</button>
+					</div>
+					<div class="content-box">
+						<div class="content"></div>
+					</div>
+					<div class="image-box">
+						<video class="video" src="" controls="controls" width="100%" height="auto"></video>
+					</div>
+					<div class="reply-section">
+						<div class="count-box">
+							좋아요<div class="like-count"></div>
+							댓글<div class="reply-count"></div>
+						</div>
+						<div class="insert-reply">
+							<p>댓글 등록</p>
+							<textarea class="textbox" rows="3" cols="100"></textarea>
+							<button type="button" class="btn btn btn-sm insert">
+							등록</button>
+						</div>
+						
+						<div class="reply-list">						
+							
+						</div>
+					</div>
+				</section>
+				
+			</div>
+			<div class="footer">
+				<div class="footer fout">
+					<div class="footer fin">ⓒSo? Would You? Team.Any Question?</div>
+				</div>
+			</div>
+		</section>
+	</section>
+</body>
+
+
+</body>
+</html>

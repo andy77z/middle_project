@@ -1,0 +1,34 @@
+<%@page import="soju.vo.SubscribeVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>So? Would You?</title>
+<script src="<%= request.getContextPath() %>/js/jquery-3.6.0.min.js"></script>
+<script>
+	$(function(){
+		$('.sub').on('click',function(){
+			location.href = '<%=request.getContextPath()%>/insertSub.do';
+		})
+		
+		$('.back').on('click',function(){
+			location.href = '<%=request.getContextPath()%>/jsp/main/loginMain.jsp';
+		})
+	})
+</script>
+<style>
+
+</style>
+</head>
+<body>
+	<div class="box">
+		<div class="msg">해당 아티스트를 구독하지 않았습니다. 구독 하시겠습니까?</div>
+		<div class="btn">
+			<input class="sub" type="button" value="구독하기!!!">
+			<input class="back" type="button" value="돌아가기...">
+		</div>
+	</div>
+</body>
+</html>

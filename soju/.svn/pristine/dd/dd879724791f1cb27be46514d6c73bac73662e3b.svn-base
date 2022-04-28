@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="manager">
+	<!-- 회원관리 -->
+
+	<!-- 소속사 계정 발급 (반환값=소속사번호)-->
+	<insert id="addAgencyAccount" parameterClass="agencyVO">
+		 insert into agency 
+		 values(agc_num_seq.nextval,
+		 		#agc_id#,
+		 		#agc_pass#,
+		 		#agc_name#,
+		 		#agc_mail#,
+		 		#agc_photo#)
+		 <selectKey keyProperty="agc_num" resultClass="int">
+		 	select agc_num_seq.currval from dual
+		 </selectKey>
+	</insert>
+	
+	<!-- 소속사 계정목록  -->
+	<select id="getAgencyAll" resultClass="agencyVO">
+		select * from agency
+	</select>
+	
+	<!-- 소속사 계정 회수 (소속사번호)-->
+	<delete id="deleteAgency" parameterClass="int">
+		delete from agency where agc_num=#agc_num#
+	</delete>
+	
+	<!-- 아티스트 계정 발급 (반환값=아티스트번호)-->
+	<insert id="addArtistAccount" parameterClass="artistVO">
+		insert into artist 
+		values(art_num_seq.nextval,
+			   #art_id#,
+			   #art_pass#,
+			   #art_name#,
+			   #gr_name#,
+			   #art_mail#,
+			   #art_photo#,
+			   0,
+			   #agc_num#,
+			   N)
+		<selectKey keyProperty="art_num" resultClass="int">
+		 	select art_num_seq.currval from dual
+		 </selectKey>
+	</insert>
+	
+	<!-- 아티스트 계정목록  -->
+	<select id="getArtistAll" resultClass="artistVO">
+		select * from artist
+	</select>
+	
+	<!-- 아티스트 계정 회수 (아티스트번호)-->
+	<!-- 계정 탈퇴 정보 수정 -->
+	<update id="resignArtist" parameterClass="int">
+		update artist set art_resign='Y' where art_num=#art_num#
+	</update>
+	
+	<!-- 탈퇴시 로그인정보에서 삭제(소속사,아티스트,회원 공용) -->
+	<delete id="deleteLoginInfo" parameterClass="String">
+		delete from login_info where id=#id#
+	</delete>
+	
+	<!-- 처리 안한 신고목록  -->
+	<select id="getReportListN" resultClass="reportVO">
+		select * from report where confirm='N'
+	</select>
+	
+	<!-- 처리 완료 신고목록  -->
+	<select id="getReportListY" resultClass="reportVO">
+		select * from report where confirm='Y'
+	</select>
+	
+	<!-- 신고 목록에서 클릭하여 경고 처리 (신고대상번호)-->
+	<update id="warnMember" parameterClass="int">
+		update member set mem_warn=mem_warn + 1 where mem_num=#mem_num#
+	</update>
+	
+	<!-- 경고 처리한 회원 경고횟수 조회 (신고대상번호) -->
+	<select id="checkWarnCnt">
+		select warn_cnt from member where mem_num=#mem_num#
+	</select>
+	
+	<!-- 3회 이상이면 블랙리스트에 추가 (블랙리스트VO)-->
+	<insert id="insertBlacklist" parameterClass="blacklistVO">
+		insert into blacklist 
+		values(blk_num_seq.nextval,
+			   sysdate,
+			   sysdate+7,
+			   #blk_reason#,
+			   #mem_num#)
+		<selectKey keyProperty="blk_num" resultClass="int">
+			select blk_num_seq.currval from dual;
+		</selectKey>
+	</insert>
+	
+	<!-- 신고 내용 처리 (신고번호) (경고처리 하거나 신고반려 할 경우) -->
+	<update id="reportConfirm" parameterClass="int">
+		update report set confirm='Y' where rep_num=#rep_num#
+	</update>
+	
+	<!-- 회원 탈퇴 처리 (회원번호)-->
+	<update id="resignMember" parameterClass="int">
+		update member set mem_resign='Y' where mem_num=#mem_num#
+	</update>
+	
+	<!--       -->
+	<!-- 결제 -->
+	
+	<!-- 결제 내역(환불N인것) -->
+	<select id="getPayList" resultClass="payVO">
+		select * from pay where refund='N'
+	</select>
+	
+	<!-- 월별 결제 내역(파라미터 예 = 202112  <= string타입) -->
+	<select id="getPayListMonth" parameterClass="string">
+		select * from pay where to_char(pay_date,'yyyyMM')=#date#
+	</select>
+	
+	<!-- 환불 내역(환불Y인것) -->
+	<select id="getRefundList" resultClass="payVO">
+		select * from pay where refund='Y'
+	</select>
+	
+	<!-- 정산 내역 등록 (월말 자동)-->
+	<insert id="insert">
+		
+	</insert>
+	
+	<!-- 정산 내역 조회 -->
+	<select id="getTaxList" resultClass="taxVO">
+		select * from tax
+	</select>
+	
+	
+	<!--         -->
+	<!-- 공지사항 -->
+	
+	<!-- 공지사항 목록 -->
+	<select id="getNoticeAll" resultClass="noticeVO">
+		select * from notice
+	</select>
+	
+	<select id="totalCount" resultClass="int">
+		select count(*) from notice
+	</select>
+	
+	<!-- 공지사항 등록 -->
+	<insert id="insertNotice" parameterClass="noticeVO">
+		insert into notice 
+		values(ntc_num_seq.nextval,
+			   #ntc_title#,
+			   #ntc_cont#,
+			   sysdate,
+			   #ntc_num#)
+		<selectKey keyProperty="ntc_num" resultClass="int">
+			select ntc_num_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<!-- 공지사항 수정 -->
+	<update id="updateNotice" parameterClass="noticeVO">
+		update notice set ntc_title=#ntc_title#,
+						  ntc_cont=#ntc_cont#,
+						  ntc_date=sysdate
+						  mng_num=#mng_num#
+					where ntc_num=#ntc_num#
+	</update>
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="deleteNotice" parameterClass="int">
+		delete notice where ntc_num=#ntc_num#
+	</delete>
+	
+	<select id="selectByPage" resultClass="noticeVO" parameterClass="map">
+		<![CDATA[
+		select A.* from (
+    		select rownum as rnum, B.*  from (
+         		select * from notice 
+         		order by ntc_num desc) B
+     		where rownum <= #end#) A 
+ 		where A.rnum >= #start#
+ 		]]>
+	</select>
+	
+	
+	<!--          -->
+	<!-- 문의 -->
+	
+	<!-- 자주묻는질문 목록 -->
+	<select id="getQna" resultClass="qnaVO">
+		select * from qna
+	</select>
+	
+	<!-- 자주묻는질문 등록 -->
+	<insert id="insertQna">
+		insert into qna 
+		values(qna_num_seq.nextval,
+			   #qna_title#,
+			   #qna_cont#)
+		<selectKey keyProperty="qna_num" resultClass="int">
+			select qna_num_seq.currval from dual;
+		</selectKey>
+	</insert>
+	
+	<!-- 자주묻는질문 수정 -->
+	<update id="updateQna" parameterClass="qnaVO">
+		update qna set qna_title=#qna_title#,
+					   qna_cont=#qna_cont#
+				where qna_num=#qna_num#
+	</update>
+	
+	<!-- 자주묻는질문 삭제 -->
+	<delete id="deleteQna" parameterClass="int">
+		delete from qna where qna_num=#qna_num#
+	</delete>
+	
+	<!-- 1:1문의 목록 (답변 안한것) -->
+	<select id="getNoAnswerList" resultClass="direct_qnaVO">
+		select * from direct_qna where dq_adate is null
+	</select>
+	
+	<!-- 1:1문의 목록 (답변 한것) -->
+	<select id="getAnswerList" resultClass="direct_qnaVO">
+		select * from direct_qna where dq_adate is not null
+	</select>
+	
+	<!-- 1:1 문의 상세 -->
+	<select id="getDqDetail" resultClass="direct_qnaVO">
+		select * from direct_qna where dq_num=#dq_num#
+	</select>
+	
+	<!-- 1:1 문의 작성 -->
+	<update id="answerQ" parameterClass="direct_qnaVO">
+		update direct_qnaVO set dq_answer=#dq_answer#,
+								dq_adate=sysdate
+							where dq_num=#dq_num#
+	</update>
+</sqlMap>
